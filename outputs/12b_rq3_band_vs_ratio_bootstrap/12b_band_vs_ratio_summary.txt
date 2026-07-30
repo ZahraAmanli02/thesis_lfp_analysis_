@@ -1,0 +1,39 @@
+========================================================================================
+12B RQ3 — BAND vs RATIO   |   SLOW vs GAMMA
+========================================================================================
+Source: SVM-RBF bootstrap balanced accuracy per (phase × cell).
+
+----------------------------------------------------------------------------------------
+A. FREQUENCY BAND (n=6) vs BAND-TO-BAND RATIO (n=15)
+----------------------------------------------------------------------------------------
+phase                      BAND                                          RATIO                                        
+A — pro-estrus             n= 6  mean=0.453  median=0.445  best=0.547    n=15  mean=0.532  median=0.504  best=0.719   
+B — estrus                 n= 6  mean=0.561  median=0.554  best=0.633    n=15  mean=0.507  median=0.453  best=0.679   
+C — metestrus              n= 6  mean=0.476  median=0.447  best=0.625    n=15  mean=0.438  median=0.429  best=0.514   
+D — diestrus               n= 6  mean=0.510  median=0.514  best=0.536    n=15  mean=0.478  median=0.470  best=0.571   
+
+OVERALL (all phases)       n=24  mean=0.500  median=0.499  best=0.633    n=60  mean=0.489  median=0.466  best=0.719   
+
+----------------------------------------------------------------------------------------
+B. SLOW BANDS (delta, theta, beta) vs GAMMA BANDS (low, high, fast gamma)
+----------------------------------------------------------------------------------------
+phase                      SLOW                                          GAMMA                                        
+A — pro-estrus             n= 3  mean=0.456  median=0.421  best=0.547    n= 3  mean=0.451  median=0.468  best=0.487   
+B — estrus                 n= 3  mean=0.574  median=0.574  best=0.633    n= 3  mean=0.548  median=0.549  best=0.558   
+C — metestrus              n= 3  mean=0.451  median=0.454  best=0.463    n= 3  mean=0.500  median=0.440  best=0.625   
+D — diestrus               n= 3  mean=0.504  median=0.508  best=0.520    n= 3  mean=0.515  median=0.520  best=0.536   
+
+OVERALL (all phases)       n=12  mean=0.496  median=0.496  best=0.633    n=12  mean=0.504  median=0.505  best=0.625   
+
+----------------------------------------------------------------------------------------
+HOW TO READ THIS
+----------------------------------------------------------------------------------------
+  * If the RATIO mean is consistently higher than the BAND mean
+    per phase, the diet signal lives in cross-frequency coupling
+    rather than in raw band power alone.
+  * If the GAMMA mean is higher than the SLOW mean, the signal
+    is concentrated in gamma bands — consistent with LH-modulation
+    literature and metabolic-hormonal state effects on cortex.
+  * Look at Phase B (estrus) in particular — this is where the
+    only CI-confirmed cell (fast_gamma / delta) sits, and the
+    ratio-vs-band and gamma-vs-slow patterns here matter most.

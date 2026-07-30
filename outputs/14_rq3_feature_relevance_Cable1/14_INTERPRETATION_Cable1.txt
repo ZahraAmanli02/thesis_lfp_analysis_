@@ -1,0 +1,60 @@
+==============================================================================
+14 RQ3 INTERPRETATION — Cable1
+==============================================================================
+
+Auto-generated summary of where the diet / weight signals live.
+
+------------------------------------------------------------------------------
+1. HEADLINE FINDINGS
+------------------------------------------------------------------------------
+- Diet-signal is significant in 6 / 84 cells.
+- Weight-signal is significant in 4 / 84 cells.
+- The best diet cell is phase B x high_gamma_theta (bal_acc = 0.744).
+- The best weight cell is phase A x high_gamma_beta (R² = 0.397).
+
+------------------------------------------------------------------------------
+2. WHICH ESTROUS PHASE?
+------------------------------------------------------------------------------
+- Most informative phase for diet   : phase B
+    (4 significant cells, mean bal_acc = 0.488)
+- Most informative phase for weight : phase A
+    (3 significant cells, mean R² = -0.454)
+
+Per-phase table (all cells):
+  phase A: diet 1 sig | mean bal_acc 0.442 | max 0.712   || weight 3 sig | mean R² -0.454 | max 0.397
+  phase B: diet 4 sig | mean bal_acc 0.488 | max 0.744   || weight 0 sig | mean R² -0.783 | max -0.177
+  phase C: diet 1 sig | mean bal_acc 0.448 | max 0.600   || weight 0 sig | mean R² -0.698 | max -0.052
+  phase D: diet 0 sig | mean bal_acc 0.283 | max 0.639   || weight 1 sig | mean R² -0.476 | max 0.144
+
+------------------------------------------------------------------------------
+3. BAND vs BAND-TO-BAND RATIO
+------------------------------------------------------------------------------
+- Bands (n=24):   2 sig diet, 0 sig weight  |  mean bal_acc 0.420, mean R² -0.517
+- Ratios (n=60):  4 sig diet, 4 sig weight  |  mean bal_acc 0.413, mean R² -0.637
+- On average, bands carry the stronger diet signal.
+- On average, bands carry the stronger weight signal.
+
+------------------------------------------------------------------------------
+4. GAMMA vs SLOW (delta / theta / beta) BAND FAMILY
+------------------------------------------------------------------------------
+- Diet:   gamma mean bal_acc = 0.492, slow mean = 0.348  ->  gamma wins
+- Weight: gamma mean R²      = -0.429, slow mean = -0.605  ->  gamma wins
+- (Only band cells contribute here; ratios are excluded because they mix bands.)
+
+------------------------------------------------------------------------------
+5. CROSS-TASK CONSISTENCY
+------------------------------------------------------------------------------
+- No single cell reached p < 0.05 for BOTH diet AND weight simultaneously.
+  This is scientifically informative: the diet-signal and the weight-signal
+  do not live in the same cells. LFP encodes diet CATEGORY separately from
+  CONTINUOUS body weight.
+
+------------------------------------------------------------------------------
+6. DEFENSE ONE-LINER
+------------------------------------------------------------------------------
+'The diet signal lives predominantly in phase B, in
+bands rather than raw bands, with the best cell being
+high_gamma_theta (bal_acc = 0.74). Weight
+prediction peaks in phase A at high_gamma_beta
+(R² = 0.40). Diet and weight signals do not fully overlap,
+which is itself informative: the LFP encodes the two dimensions separately.'

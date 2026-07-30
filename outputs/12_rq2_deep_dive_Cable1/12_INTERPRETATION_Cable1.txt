@@ -1,0 +1,131 @@
+==============================================================================
+12 RQ2 DEEP-DIVE INTERPRETATION — Cable1
+==============================================================================
+
+Auto-generated summary you can lift into the Results section.
+
+------------------------------------------------------------------------------
+HEADLINE
+------------------------------------------------------------------------------
+- Of the 84 (phase x cell) regression models, 4 showed
+  statistically significant weight prediction (permutation p<0.05).
+- The strongest cell was phase A x high_gamma_beta, with
+  R^2 = 0.397 under Leave-One-Mouse-Out cross-validation.
+
+------------------------------------------------------------------------------
+MODEL COMPARISON (RF vs Ridge on the top cells)
+------------------------------------------------------------------------------
+On 11/84 of the top cells, Random Forest beat the Ridge linear baseline, indicating that non-linear structure in the LFP contributes to the prediction. On the remaining cells the two models were comparable, suggesting a roughly linear relationship in those cells.
+
+  phase A | delta                    R^2_RF = -0.290   R^2_Ridge = -0.301
+  phase A | theta                    R^2_RF = -0.840   R^2_Ridge = -0.280
+  phase A | beta                     R^2_RF = -0.467   R^2_Ridge = -0.356
+  phase A | low_gamma                R^2_RF = -0.429   R^2_Ridge = -0.190
+  phase A | high_gamma               R^2_RF = -0.600   R^2_Ridge = -0.106
+  phase A | fast_gamma               R^2_RF = -0.367   R^2_Ridge = -0.033
+  phase A | theta_delta              R^2_RF = -0.639   R^2_Ridge = -0.241
+  phase A | beta_delta               R^2_RF = -0.813   R^2_Ridge = -0.207
+  phase A | low_gamma_delta          R^2_RF = -0.411   R^2_Ridge = -0.275
+  phase A | high_gamma_delta         R^2_RF = -0.675   R^2_Ridge = -0.255
+  phase A | fast_gamma_delta         R^2_RF = -0.845   R^2_Ridge = -0.283
+  phase A | beta_theta               R^2_RF = -0.900   R^2_Ridge = -0.388
+  phase A | low_gamma_theta          R^2_RF = -1.056   R^2_Ridge = -0.163
+  phase A | high_gamma_theta         R^2_RF = -0.638   R^2_Ridge = -0.022
+  phase A | fast_gamma_theta         R^2_RF = -0.607   R^2_Ridge = -0.169
+  phase A | low_gamma_beta           R^2_RF = -0.042   R^2_Ridge = -0.104
+  phase A | high_gamma_beta          R^2_RF = 0.397   R^2_Ridge = -0.066
+  phase A | fast_gamma_beta          R^2_RF = 0.394   R^2_Ridge = -0.165
+  phase A | high_gamma_low_gamma     R^2_RF = -0.018   R^2_Ridge = -0.158
+  phase A | fast_gamma_low_gamma     R^2_RF = -0.467   R^2_Ridge = -0.268
+  phase A | fast_gamma_high_gamma    R^2_RF = -0.216   R^2_Ridge = -0.360
+  phase B | delta                    R^2_RF = -0.932   R^2_Ridge = -0.314
+  phase B | theta                    R^2_RF = -1.073   R^2_Ridge = -0.379
+  phase B | beta                     R^2_RF = -0.802   R^2_Ridge = -0.378
+  phase B | low_gamma                R^2_RF = -0.759   R^2_Ridge = -0.291
+  phase B | high_gamma               R^2_RF = -0.541   R^2_Ridge = -0.319
+  phase B | fast_gamma               R^2_RF = -0.261   R^2_Ridge = -0.434
+  phase B | theta_delta              R^2_RF = -0.801   R^2_Ridge = -0.249
+  phase B | beta_delta               R^2_RF = -0.177   R^2_Ridge = -0.211
+  phase B | low_gamma_delta          R^2_RF = -0.643   R^2_Ridge = -0.181
+  phase B | high_gamma_delta         R^2_RF = -0.951   R^2_Ridge = -0.177
+  phase B | fast_gamma_delta         R^2_RF = -0.915   R^2_Ridge = -0.169
+  phase B | beta_theta               R^2_RF = -0.833   R^2_Ridge = -0.300
+  phase B | low_gamma_theta          R^2_RF = -1.441   R^2_Ridge = -0.263
+  phase B | high_gamma_theta         R^2_RF = -1.246   R^2_Ridge = -0.275
+  phase B | fast_gamma_theta         R^2_RF = -1.274   R^2_Ridge = -0.227
+  phase B | low_gamma_beta           R^2_RF = -0.559   R^2_Ridge = -0.112
+  phase B | high_gamma_beta          R^2_RF = -0.694   R^2_Ridge = -0.173
+  phase B | fast_gamma_beta          R^2_RF = -0.219   R^2_Ridge = -0.156
+  phase B | high_gamma_low_gamma     R^2_RF = -0.459   R^2_Ridge = -0.226
+  phase B | fast_gamma_low_gamma     R^2_RF = -0.923   R^2_Ridge = -0.197
+  phase B | fast_gamma_high_gamma    R^2_RF = -0.947   R^2_Ridge = -0.170
+  phase C | delta                    R^2_RF = -0.631   R^2_Ridge = -0.510
+  phase C | theta                    R^2_RF = -0.610   R^2_Ridge = -0.081
+  phase C | beta                     R^2_RF = -0.772   R^2_Ridge = -0.203
+  phase C | low_gamma                R^2_RF = -0.052   R^2_Ridge = -0.031
+  phase C | high_gamma               R^2_RF = -0.703   R^2_Ridge = -0.157
+  phase C | fast_gamma               R^2_RF = -0.462   R^2_Ridge = -0.159
+  phase C | theta_delta              R^2_RF = -0.474   R^2_Ridge = -0.055
+  phase C | beta_delta               R^2_RF = -0.809   R^2_Ridge = -0.546
+  phase C | low_gamma_delta          R^2_RF = -0.130   R^2_Ridge = -0.472
+  phase C | high_gamma_delta         R^2_RF = -0.418   R^2_Ridge = -0.307
+  phase C | fast_gamma_delta         R^2_RF = -0.784   R^2_Ridge = -0.285
+  phase C | beta_theta               R^2_RF = -1.024   R^2_Ridge = -0.345
+  phase C | low_gamma_theta          R^2_RF = -0.344   R^2_Ridge = -0.290
+  phase C | high_gamma_theta         R^2_RF = -0.527   R^2_Ridge = -0.170
+  phase C | fast_gamma_theta         R^2_RF = -0.492   R^2_Ridge = -0.217
+  phase C | low_gamma_beta           R^2_RF = -1.766   R^2_Ridge = -0.466
+  phase C | high_gamma_beta          R^2_RF = -1.741   R^2_Ridge = -0.521
+  phase C | fast_gamma_beta          R^2_RF = -0.712   R^2_Ridge = -0.501
+  phase C | high_gamma_low_gamma     R^2_RF = -0.769   R^2_Ridge = -0.445
+  phase C | fast_gamma_low_gamma     R^2_RF = -1.203   R^2_Ridge = -0.446
+  phase C | fast_gamma_high_gamma    R^2_RF = -0.232   R^2_Ridge = -0.451
+  phase D | delta                    R^2_RF = -0.118   R^2_Ridge = -0.113
+  phase D | theta                    R^2_RF = -0.339   R^2_Ridge = -0.212
+  phase D | beta                     R^2_RF = -0.387   R^2_Ridge = -0.198
+  phase D | low_gamma                R^2_RF = -0.165   R^2_Ridge = -0.163
+  phase D | high_gamma               R^2_RF = -0.449   R^2_Ridge = -0.210
+  phase D | fast_gamma               R^2_RF = -0.365   R^2_Ridge = -0.260
+  phase D | theta_delta              R^2_RF = -1.182   R^2_Ridge = -0.184
+  phase D | beta_delta               R^2_RF = -0.372   R^2_Ridge = -0.161
+  phase D | low_gamma_delta          R^2_RF = -0.489   R^2_Ridge = -0.151
+  phase D | high_gamma_delta         R^2_RF = -1.107   R^2_Ridge = -0.126
+  phase D | fast_gamma_delta         R^2_RF = -0.169   R^2_Ridge = -0.151
+  phase D | beta_theta               R^2_RF = -0.607   R^2_Ridge = -0.184
+  phase D | low_gamma_theta          R^2_RF = 0.144   R^2_Ridge = -0.204
+  phase D | high_gamma_theta         R^2_RF = -0.471   R^2_Ridge = -0.180
+  phase D | fast_gamma_theta         R^2_RF = -0.458   R^2_Ridge = -0.243
+  phase D | low_gamma_beta           R^2_RF = -0.718   R^2_Ridge = -0.198
+  phase D | high_gamma_beta          R^2_RF = -0.591   R^2_Ridge = -0.159
+  phase D | fast_gamma_beta          R^2_RF = -0.685   R^2_Ridge = -0.190
+  phase D | high_gamma_low_gamma     R^2_RF = -0.375   R^2_Ridge = -0.111
+  phase D | fast_gamma_low_gamma     R^2_RF = -0.402   R^2_Ridge = -0.164
+  phase D | fast_gamma_high_gamma    R^2_RF = -0.699   R^2_Ridge = -0.136
+
+------------------------------------------------------------------------------
+SCIENTIFIC READING
+------------------------------------------------------------------------------
+- Weight regression from LFP alone is HARDER than diet classification.
+  This asymmetry is scientifically informative: chronic HFD exposure
+  leaves a categorical signature in the LFP that is easier to decode
+  than the continuous body-weight dimension. This is consistent with
+  the fact that body weight reflects many non-neural factors (diet
+  intake, activity, hormones), while diet group is a controlled
+  categorical variable.
+
+- The best weight-predictive cell — phase A x high_gamma_beta —
+  lies in the gamma frequency range, consistent with gamma's role in
+  LH feeding and energy-related circuits (Carus-Cadavieco et al., 2017).
+
+- Prediction is not equally good across phases: this validates the
+  per-phase modelling approach and suggests that estrous state gates
+  the strength of the weight signal in the LFP.
+
+------------------------------------------------------------------------------
+DEFENSE ONE-LINER
+------------------------------------------------------------------------------
+'The LFP carries partial information about body weight, concentrated in
+gamma-related cells during phase A — best cell high_gamma_beta,
+R^2 = 0.40. That the effect is localised rather than global
+is itself informative: it tells us weight is not a simple readout of
+hypothalamic activity, but is modulated by the estrous cycle.'

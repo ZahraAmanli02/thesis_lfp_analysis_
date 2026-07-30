@@ -1,0 +1,64 @@
+==============================================================================
+16 — Mixed-effects models on POOLED Cable 1 + Cable 3
+==============================================================================
+
+n_recordings = 163
+n_mice       = 19
+HF / CTRL    = 78 / 85
+Cable 1 rec  = 89
+Cable 3 rec  = 74
+
+Model:
+  y ~ group + estrous_phase + body_weight
+    + days_on_diet + cable + (1|mouse)
+
+Primary group[T.HF] effect, BH-adjusted across 21 outcomes:
+------------------------------------------------------------------------------
+outcome                            beta      SE                 95% CI   p_wald     p_BH  sig
+------------------------------------------------------------------------------
+log_fast_gamma_beta              -0.175   0.114 [-0.399,+0.049]    0.126    0.773     
+log_high_gamma_beta              -0.118   0.075 [-0.265,+0.029]    0.117    0.773     
+log_low_gamma_beta               -0.108   0.055 [-0.215,-0.001]    0.049    0.773     
+log_fast_gamma_abs               -0.216   0.149 [-0.508,+0.076]    0.147    0.773     
+log_beta_delta                   +0.145   0.110 [-0.071,+0.360]    0.188    0.789     
+log_delta_abs                    -0.190   0.186 [-0.554,+0.174]    0.307    0.791     
+log_beta_theta                   +0.100   0.105 [-0.105,+0.306]    0.339    0.791     
+log_fast_gamma_low_gamma         -0.064   0.073 [-0.207,+0.078]    0.378    0.791     
+log_fast_gamma_high_gamma        -0.054   0.059 [-0.170,+0.062]    0.361    0.791     
+log_high_gamma_abs               -0.169   0.171 [-0.503,+0.165]    0.321    0.791     
+log_low_gamma_abs                -0.151   0.185 [-0.514,+0.212]    0.414    0.791     
+log_theta_delta                  +0.109   0.156 [-0.197,+0.415]    0.484    0.846     
+log_theta_abs                    -0.146   0.254 [-0.644,+0.352]    0.565    0.849     
+log_low_gamma_delta              +0.061   0.106 [-0.148,+0.270]    0.566    0.849     
+log_high_gamma_delta             +0.053   0.111 [-0.165,+0.271]    0.633    0.873     
+log_fast_gamma_theta             -0.078   0.183 [-0.437,+0.281]    0.669    0.873     
+log_high_gamma_low_gamma         -0.011   0.028 [-0.065,+0.044]    0.706    0.873     
+log_high_gamma_theta             -0.024   0.140 [-0.299,+0.251]    0.866    0.909     
+log_beta_abs                     -0.038   0.200 [-0.430,+0.354]    0.850    0.909     
+log_fast_gamma_delta             +0.021   0.114 [-0.203,+0.245]    0.854    0.909     
+log_low_gamma_theta              -0.011   0.131 [-0.268,+0.245]    0.930    0.930     
+
+==============================================================================
+Nuisance cable[T.Cable3] effect (documented, NOT inferential):
+------------------------------------------------------------------------------
+log_delta_abs                  β=+0.708 p=0.000
+log_theta_abs                  β=+0.389 p=0.000
+log_beta_abs                   β=+0.260 p=0.001
+log_low_gamma_abs              β=+0.240 p=0.000
+log_high_gamma_abs             β=+0.248 p=0.000
+log_fast_gamma_abs             β=+0.271 p=0.000
+log_theta_delta                β=-0.323 p=0.000
+log_beta_delta                 β=-0.462 p=0.000
+log_low_gamma_delta            β=-0.486 p=0.000
+log_high_gamma_delta           β=-0.477 p=0.000
+log_fast_gamma_delta           β=-0.450 p=0.000
+log_beta_theta                 β=-0.128 p=0.000
+log_low_gamma_theta            β=-0.148 p=0.001
+log_high_gamma_theta           β=-0.140 p=0.003
+log_fast_gamma_theta           β=-0.118 p=0.025
+log_low_gamma_beta             β=-0.021 p=0.342
+log_high_gamma_beta            β=-0.013 p=0.689
+log_fast_gamma_beta            β=+0.010 p=0.792
+log_high_gamma_low_gamma       β=+0.008 p=0.650
+log_fast_gamma_low_gamma       β=+0.031 p=0.216
+log_fast_gamma_high_gamma      β=+0.023 p=0.157

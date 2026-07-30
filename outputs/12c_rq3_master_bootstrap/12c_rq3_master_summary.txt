@@ -1,0 +1,52 @@
+================================================================================================
+12C RQ3 MASTER — combined bootstrap analysis
+================================================================================================
+
+Inputs:
+  RQ1: outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv
+       (SVM-RBF, diet classification)
+  RQ2: outputs/11c1_bootstrap_weight_change_full/11c1_bootstrap_weight_change_results_long.csv
+       (HFD subset, target = weight_delta (change from mouse baseline))
+
+------------------------------------------------------------------------------------------------
+A. CROSS-TASK CONSISTENCY
+------------------------------------------------------------------------------------------------
+  Pearson r (bal_acc vs R²)             = -0.359
+  Permutation p-value (5000 shuffles) = 0.0036
+  Cells above both chance lines         = 0 / 63
+  Top 'informative in both' cells        = (none)
+
+------------------------------------------------------------------------------------------------
+B. FREQUENCY BAND vs BAND-TO-BAND RATIO   (per-phase, SVM)
+------------------------------------------------------------------------------------------------
+phase                      BAND                                          RATIO                                        
+A — pro-estrus             n= 6  mean=0.453  median=0.445  best=0.547    n=15  mean=0.532  median=0.504  best=0.719   
+B — estrus                 n= 6  mean=0.561  median=0.554  best=0.633    n=15  mean=0.507  median=0.453  best=0.679   
+C — metestrus              n= 6  mean=0.476  median=0.447  best=0.625    n=15  mean=0.438  median=0.429  best=0.514   
+D — diestrus               n= 6  mean=0.510  median=0.514  best=0.536    n=15  mean=0.478  median=0.470  best=0.571   
+
+OVERALL                    n=24  mean=0.500  median=0.499  best=0.633    n=60  mean=0.489  median=0.466  best=0.719   
+
+------------------------------------------------------------------------------------------------
+C. SLOW vs GAMMA BANDS   (per-phase, SVM)
+------------------------------------------------------------------------------------------------
+phase                      SLOW                                          GAMMA                                        
+A — pro-estrus             n= 3  mean=0.456  median=0.421  best=0.547    n= 3  mean=0.451  median=0.468  best=0.487   
+B — estrus                 n= 3  mean=0.574  median=0.574  best=0.633    n= 3  mean=0.548  median=0.549  best=0.558   
+C — metestrus              n= 3  mean=0.451  median=0.454  best=0.463    n= 3  mean=0.500  median=0.440  best=0.625   
+D — diestrus               n= 3  mean=0.504  median=0.508  best=0.520    n= 3  mean=0.515  median=0.520  best=0.536   
+
+OVERALL                    n=12  mean=0.496  median=0.496  best=0.633    n=12  mean=0.504  median=0.505  best=0.625   
+
+================================================================================================
+DISCUSSION-READY SENTENCES  (auto-generated from the numbers above)
+================================================================================================
+
+Cross-task consistency:
+  Cross-task analysis of the 84 (phase × cell) models produced 0 cells above both chance lines. The rank-correlation between RQ1 balanced accuracy and RQ2 R² across cells was Pearson r = -0.36 (statistically distinguishable from zero (p = 0.004)), a moderate negative association. This suggests that the LFP substrate distinguishing diet groups is largely separable from the substrate carrying weight-change information.
+
+Band vs ratio:
+  The relative informativeness of raw band power vs cross-frequency ratios was phase-specific: overall (all phases pooled) the two feature classes were comparable (band mean = 0.50; ratio mean = 0.49), but per-phase comparisons revealed asymmetries — phase A — pro-estrus: band mean = 0.45, ratio mean = 0.53 (ratio leads); phase B — estrus: band mean = 0.56, ratio mean = 0.51 (band leads); phase C — metestrus: band mean = 0.48, ratio mean = 0.44 (band leads); phase D — diestrus: band mean = 0.51, ratio mean = 0.48 (band leads).
+
+Slow vs gamma:
+  Across the six frequency bands, the distinction between slow (δ, θ, β) and gamma (low, high, fast γ) bands was roughly balanced overall (slow mean = 0.50; gamma mean = 0.50). The strongest single-band cell was in Phase B (estrus) — delta — indicating that HFD-related LFP changes concentrate in slow-oscillation dynamics during the peak hormonal phase, rather than in gamma alone.

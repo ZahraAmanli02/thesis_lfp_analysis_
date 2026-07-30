@@ -1,0 +1,45 @@
+========================================================================================
+12 RQ3 — CROSS-TASK CONSISTENCY  (bootstrap-based)
+========================================================================================
+
+Question:
+  Do the same (phase × cell) combinations that classify diet
+  also predict weight change? If yes -> shared LFP substrate.
+
+Inputs:
+  RQ1: outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv
+       (SVM-RBF, primary classifier)
+  RQ2: outputs/11c1_bootstrap_weight_change_full/11c1_bootstrap_weight_change_results_long.csv
+       (HFD subset, target = weight_delta (change from mouse baseline))
+
+Cells with both metrics available: 63
+
+----------------------------------------------------------------------------------------
+HEADLINE STATISTIC
+----------------------------------------------------------------------------------------
+  Pearson r (bal_acc vs R²) = -0.359
+  Permutation p-value      = 0.0036  (5000 shuffles)
+  Interpretation           = moderate negative correlation (statistically distinguishable from zero (p = 0.004))
+
+  Cells above both chance lines (bal_acc > 0.5 AND R² > 0):
+    0 / 63
+  Cells whose 95% CI clears both chance lines (stricter):
+    0 / 63
+
+----------------------------------------------------------------------------------------
+TOP CELLS INFORMATIVE FOR BOTH TASKS  (ranked by combined lift)
+----------------------------------------------------------------------------------------
+  (none; no cells sit above both chance lines)
+
+----------------------------------------------------------------------------------------
+HOW TO READ THIS
+----------------------------------------------------------------------------------------
+  * Upper-right quadrant = cells informative in BOTH tasks.
+    A cluster there means diet and weight are picked up by the
+    same LFP signature — a shared physiological substrate.
+  * A high positive Pearson r extends the same idea: the ranking
+    of cells by diet-classification tracks the ranking by
+    weight-change regression.
+  * Wide scatter / r ≈ 0 = the two tasks pick up different LFP
+    features. This is itself informative: it means diet and
+    weight change are reflected in DIFFERENT oscillation regimes.

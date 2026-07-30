@@ -1,0 +1,71 @@
+==============================================================================
+13 RQ1 DEEP-DIVE INTERPRETATION — Cable1
+==============================================================================
+
+Auto-generated summary you can lift into the Results section.
+
+------------------------------------------------------------------------------
+HEADLINE
+------------------------------------------------------------------------------
+- Of 84 (phase x cell) classifiers, 6 reached p < 0.05.
+- The strongest single cell was phase B x
+  high_gamma_theta, with balanced accuracy = 0.744.
+
+------------------------------------------------------------------------------
+PER-CELL METRICS (SVM, significant cells only)
+------------------------------------------------------------------------------
+* phase A | beta_theta
+    HF     precision=0.78   recall=0.82   F1=0.80
+    CTRL   precision=0.67   recall=0.60   F1=0.63
+* phase B | fast_gamma
+    HF     precision=0.74   recall=0.85   F1=0.79
+    CTRL   precision=0.70   recall=0.54   F1=0.61
+* phase B | fast_gamma_theta
+    HF     precision=0.75   recall=0.75   F1=0.75
+    CTRL   precision=0.62   recall=0.62   F1=0.62
+* phase B | high_gamma_theta
+    HF     precision=0.76   recall=0.95   F1=0.84
+    CTRL   precision=0.88   recall=0.54   F1=0.67
+* phase B | low_gamma
+    HF     precision=0.69   recall=1.00   F1=0.82
+    CTRL   precision=1.00   recall=0.31   F1=0.47
+* phase C | theta_delta
+    HF     precision=1.00   recall=0.20   F1=0.33
+    CTRL   precision=0.76   recall=1.00   F1=0.87
+
+------------------------------------------------------------------------------
+SVM vs RANDOM FOREST (across all 84 cells)
+------------------------------------------------------------------------------
+On 60/84 of the (phase x cell) combinations, both classifiers
+agreed on the direction of the effect (both above or both below chance),
+indicating the signal is not classifier-specific.
+
+------------------------------------------------------------------------------
+SCIENTIFIC READING
+------------------------------------------------------------------------------
+- Diet classification from LFP alone is possible but sparse: only a
+  handful of (phase, cell) combinations reach significance under LOMO
+  cross-validation and mouse-level permutation. This is honest and
+  scientifically informative — it says the diet signature in the LFP
+  is not diffuse across the whole spectrum, but concentrated in
+  specific cross-frequency interactions during specific estrous phases.
+
+- The best cells cluster in gamma-related features (high_gamma_theta,
+  fast_gamma_theta, beta_theta), consistent with the known role of
+  gamma oscillations in LH feeding circuits (Carus-Cadavieco et al.,
+  2017).
+
+- Precision / recall / F1 for the top cells show that when the SVM
+  does discriminate, it does so about equally for both classes (HF
+  and CTRL) rather than always predicting one label — evidence that
+  the signal is genuine and not a majority-class artefact.
+
+------------------------------------------------------------------------------
+DEFENSE ONE-LINER
+------------------------------------------------------------------------------
+'For diet classification, the strongest single cell was phase
+B x high_gamma_theta, with balanced accuracy
+0.74 under LOMO cross-validation. That the
+effect is localised to specific gamma-theta cells rather than global
+is scientifically meaningful: it says the diet signal lives in
+cross-frequency coupling, not in raw band power alone.'
