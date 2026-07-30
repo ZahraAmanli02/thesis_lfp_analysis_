@@ -1,0 +1,96 @@
+==============================================================================
+11 INTERPRETATION — Cable1
+==============================================================================
+
+This file was generated automatically from the 10b and 10c results.
+Use it as a starting point for the Results / Discussion in your
+thesis and to anchor the numbers in your defense talk.
+
+------------------------------------------------------------------------------
+RQ1 — DIET CLASSIFICATION (HF vs CTRL)
+------------------------------------------------------------------------------
+Significant cells (SVM, p<0.05, permutation): 6 / 84
+
+Top 5 cells (SVM-RBF, balanced accuracy):
+  phase B  |  high_gamma_theta        bal_acc = 0.744   (+0.244 vs chance)
+  phase A  |  beta_theta              bal_acc = 0.712   (+0.212 vs chance)
+  phase B  |  fast_gamma              bal_acc = 0.694   (+0.194 vs chance)
+  phase B  |  fast_gamma_theta        bal_acc = 0.683   (+0.183 vs chance)
+  phase A  |  fast_gamma_beta         bal_acc = 0.682   (+0.182 vs chance)
+
+Top 5 cells (Random Forest, balanced accuracy):
+  phase A  |  high_gamma_theta        bal_acc = 0.841   (+0.341 vs chance)
+  phase C  |  low_gamma_delta         bal_acc = 0.685   (+0.185 vs chance)
+  phase A  |  high_gamma_beta         bal_acc = 0.653   (+0.153 vs chance)
+  phase A  |  fast_gamma_beta         bal_acc = 0.644   (+0.144 vs chance)
+  phase A  |  beta_theta              bal_acc = 0.615   (+0.115 vs chance)
+
+Per-phase summary (SVM):
+  phase A: 5/21 cells above chance   mean bal_acc = 0.442   best = beta_theta (0.712)
+  phase B: 10/21 cells above chance   mean bal_acc = 0.488   best = high_gamma_theta (0.744)
+  phase C: 1/21 cells above chance   mean bal_acc = 0.448   best = theta_delta (0.600)
+  phase D: 3/21 cells above chance   mean bal_acc = 0.283   best = high_gamma_theta (0.639)
+
+------------------------------------------------------------------------------
+RQ2 — WEIGHT REGRESSION
+------------------------------------------------------------------------------
+Significant cells (RF, p<0.05, permutation): 4 / 84
+
+Top 5 cells (Random Forest, R^2):
+  phase A  |  high_gamma_beta         R^2 = 0.397
+  phase A  |  fast_gamma_beta         R^2 = 0.394
+  phase D  |  low_gamma_theta         R^2 = 0.144
+  phase A  |  high_gamma_low_gamma    R^2 = -0.018
+  phase A  |  low_gamma_beta          R^2 = -0.042
+
+Per-phase summary (weight):
+  phase A: 2/21 cells above chance   mean R^2 = -0.454   best = high_gamma_beta (0.397)
+  phase B: 0/21 cells above chance   mean R^2 = -0.783   best = beta_delta (-0.177)
+  phase C: 0/21 cells above chance   mean R^2 = -0.698   best = low_gamma (-0.052)
+  phase D: 1/21 cells above chance   mean R^2 = -0.476   best = low_gamma_theta (0.144)
+
+------------------------------------------------------------------------------
+BAND vs RATIO — where does the signal live?
+------------------------------------------------------------------------------
+Diet classification (SVM):
+  Bands  : 5/24 above chance   (mean bal_acc = 0.420)
+  Ratios : 14/60 above chance   (mean bal_acc = 0.413)
+  -> On average, bands are the stronger predictors for diet.
+
+Weight regression (RF):
+  Bands  : 0/24 above chance   (mean R^2 = -0.517)
+  Ratios : 3/60 above chance   (mean R^2 = -0.637)
+  -> On average, bands are the stronger predictors for weight.
+
+------------------------------------------------------------------------------
+PLAIN-LANGUAGE READING
+------------------------------------------------------------------------------
+- Diet classification: only 6/84 cells were
+  significantly above chance. Signal exists but is sparse and localised.
+- Weight regression: 4/84 cells were
+  significantly above chance for body-weight prediction.
+- Most informative estrous phase for diet: phase B
+  (best cell: high_gamma_theta, bal_acc = 0.744)
+- Most informative estrous phase for weight: phase A
+  (best cell: high_gamma_beta, R^2 = 0.397)
+
+------------------------------------------------------------------------------
+ALEXEY'S REQUIREMENTS — CHECKLIST
+------------------------------------------------------------------------------
+[x] Weight is NOT a feature — only a target (see 10c).
+[x] Separate models per estrous phase (A, B, C, D).
+[x] Separate models per frequency band (6 bands).
+[x] Separate models per band-to-band ratio (15 ratios).
+[x] Classification: SVM-RBF + Random Forest.
+[x] Regression: Random Forest (target = body weight).
+[x] Cables analysed separately (Cable1 vs Cable3, same pipeline).
+[x] Leave-One-Mouse-Out cross-validation.
+[x] Permutation testing (mouse-level for classification;
+    recording-level for regression); N = 200 iterations.
+[x] No band/total ratios (relative power already encodes that).
+[x] Per-phase per-cell heatmaps and bar charts produced.
+[ ] Cable 3 pipeline re-run and figures produced.
+    (change CABLE = 'Cable3' at the top of 10a/10b/10c/11 and rerun.)
+
+Everything Alexey asked for in the 2026-07-09 meeting is implemented
+in this cable. Once Cable3 is also processed, the study is complete.

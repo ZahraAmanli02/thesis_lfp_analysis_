@@ -1,0 +1,42 @@
+==========================================================================================
+11C4 BOOTSTRAP — WEIGHT-CHANGE regression, JOINT feature model
+==========================================================================================
+Features used per model: 27 (6 log-band abs + 6 rel + 15 log-ratio)
+Target: weight_delta = body_weight - baseline (per mouse)
+Rows used: diet_phase == 'diet' only
+
+Design:
+  * pool: Cable 1 (125 rec) + Cable 3 (83 rec)
+  * diet-phase rows kept: 163
+  * separate bootstrap for HFD-only and CTRL-only mice
+  * cluster bootstrap (sample mice with replacement)
+  * 1000 iterations per (subset × phase)
+  * RandomForestRegressor (200 trees, all 27 features)
+  * metric: R² on OOB rows (chance = 0)
+
+------------------------------------------------------------------------------------------
+HFD
+------------------------------------------------------------------------------------------
+  phase A — pro-estrus    n=17/8mice  R² mean = -2.791  CI = [-10.763, -0.096]
+  phase B — estrus        n=22/9mice  R² mean = -2.461  CI = [-8.960, -0.051]
+  phase C  --
+  phase D — diestrus      n=31/9mice  R² mean = -2.009  CI = [-10.539, +0.077]
+
+------------------------------------------------------------------------------------------
+CTRL
+------------------------------------------------------------------------------------------
+  phase A — pro-estrus    n=15/7mice  R² mean = -2.400  CI = [-10.856, -0.038]
+  phase B — estrus        n=26/9mice  R² mean = -4.672  CI = [-48.091, +0.002]
+  phase C — metestrus     n=15/8mice  R² mean = -1.149  CI = [-5.916, +0.284]
+  phase D — diestrus      n=29/9mice  R² mean = -1.180  CI = [-4.250, -0.061]
+
+==========================================================================================
+READING GUIDE
+==========================================================================================
+  * R² > 0 -> joint feature model predicts weight change above baseline.
+  * 95% CI excludes 0 -> the effect is statistically distinguishable
+    from a mean-only predictor.
+  * Compare to per-cell version (11c1 change): if joint model gives
+    positive R² where per-cell gave strongly negative, this confirms
+    the earlier failure was a feature-poverty issue, not a true absence
+    of signal.
