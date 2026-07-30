@@ -1,0 +1,35 @@
+======================================================================
+06 VIF CHECK (COLLINEARITY) — Cable1
+======================================================================
+
+Sample: 89 recordings / 19 mice (diet-phase only, same subset as 06a)
+
+Rule of thumb: VIF < 5 OK, 5-10 mention it, >= 10 real problem.
+
+----------------------------------------------------------------------
+MAIN-EFFECTS MODEL (the table that matters)
+  group + days_on_diet + body_weight + C(estrous_phase)
+----------------------------------------------------------------------
+  C(estrous_phase)[T.D]     VIF =   2.21
+  C(estrous_phase)[T.B]     VIF =   1.99
+  body_weight               VIF =   1.94
+  group[T.HF]               VIF =   1.86
+  C(estrous_phase)[T.C]     VIF =   1.83
+  days_on_diet              VIF =   1.14
+
+----------------------------------------------------------------------
+FULL 06A MODEL (with group:days_on_diet interaction)
+  group * days_on_diet + body_weight + C(estrous_phase)
+----------------------------------------------------------------------
+  Interaction terms structurally inflate their main effects'
+  VIF; elevated values here are expected, not diagnostic on
+  their own. Use the main-effects table above to judge
+  collinearity.
+
+  group[T.HF]                    VIF =   8.60  (watch, >=5)
+  group[T.HF]:days_on_diet       VIF =   8.01  (watch, >=5)
+  C(estrous_phase)[T.D]          VIF =   2.23
+  days_on_diet                   VIF =   2.16
+  C(estrous_phase)[T.B]          VIF =   2.00
+  body_weight                    VIF =   1.97
+  C(estrous_phase)[T.C]          VIF =   1.83

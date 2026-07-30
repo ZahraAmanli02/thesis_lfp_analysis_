@@ -1,0 +1,49 @@
+======================================================================================
+06F SENSITIVITY ANALYSIS (MANN-WHITNEY vs MIXED MODEL) — Cable1
+======================================================================================
+
+Sample:  89 recordings / 19 mice (diet-phase only)
+
+Mann-Whitney U (two-sided) compares HF vs CTRL on raw
+recordings, treating all 89 recordings as independent.
+This is a LIBERAL test (it ignores mouse-level clustering),
+so the comparison with the mixed-model result is the
+methodological point of this script: a naive test can hide
+an effect that mixed-effects modelling recovers.
+
+Rank-biserial r: non-parametric analogue of Cohen's d.
+  positive r = HF higher; negative r = HF lower; range [-1,+1].
+
+--------------------------------------------------------------------------------------
+RESULTS — sorted by mixed-model p_FDR (most significant first)
+--------------------------------------------------------------------------------------
+outcome                            MW_p   rank_r   MM_p_raw   MM_p_fdr        agreement
+log_delta_abs                     0.815    -0.03      0.001      0.015          MM only *
+log_fast_gamma_abs                0.359    -0.11      0.025      0.136        both n.s.
+log_theta_abs                     0.840    +0.03      0.107      0.235        both n.s.
+log_beta_abs                      0.789    +0.03      0.100      0.235        both n.s.
+log_low_gamma_abs                 0.678    -0.05      0.091      0.235        both n.s.
+log_high_gamma_abs                0.519    -0.08      0.141      0.258        both n.s.
+log_high_gamma_theta              0.347    -0.12      0.265      0.417        both n.s.
+log_theta_delta                   0.557    +0.07      0.334      0.459        both n.s.
+log_low_gamma_theta               0.530    -0.08      0.553      0.610        both n.s.
+log_fast_gamma_theta              0.409    -0.10      0.554      0.610        both n.s.
+log_beta_theta                    0.802    +0.03      0.772      0.772        both n.s.
+
+--------------------------------------------------------------------------------------
+AGREEMENT SUMMARY (out of 11 primary outcomes)
+--------------------------------------------------------------------------------------
+  Both tests significant:        0
+  Both tests non-significant:    10
+  Mann-Whitney only:             0
+  Mixed model only (recovered):  1
+
+Interpretation:
+  'MM only' rows are the central finding — the mixed-effects
+  model recovers a diet effect that the naive non-parametric
+  test misses, because the latter ignores mouse-level
+  clustering and the body-weight confound. For Cable1, this
+  is the case for the delta band: Mann-Whitney p = 0.82,
+  mixed model p_FDR = 0.015.
+
+'*' marks rows where the mixed-model p_FDR < 0.05.

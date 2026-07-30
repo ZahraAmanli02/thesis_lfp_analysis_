@@ -1,0 +1,55 @@
+==============================================================================
+06E EFFECT SIZES (COHEN'S D) — Cable1
+==============================================================================
+
+Sample:  89 recordings / 19 mice (diet-phase only)
+
+Cohen's d interpretation (Cohen 1988):
+  |d| < 0.2   negligible
+  0.2 - 0.5   small
+  0.5 - 0.8   medium
+  0.8 - 1.2   large
+  > 1.2       very large
+
+Convention: positive d = HF higher; negative d = HF lower.
+
+------------------------------------------------------------------------------
+CLASSICAL COHEN'S D (raw data, no covariate adjustment)
+------------------------------------------------------------------------------
+outcome                               d     magnitude
+log_high_gamma_theta              -0.20    negligible
+log_fast_gamma_theta              -0.17    negligible
+log_low_gamma_theta               -0.15    negligible
+log_delta_abs                     -0.09    negligible
+log_fast_gamma_abs                -0.05    negligible
+log_high_gamma_abs                -0.02    negligible
+log_beta_theta                    +0.02    negligible
+log_low_gamma_abs                 +0.02    negligible
+log_theta_abs                     +0.09    negligible
+log_beta_abs                      +0.12    negligible
+log_theta_delta                   +0.27         small
+
+------------------------------------------------------------------------------
+ADJUSTED COHEN'S D (mixed-model coefficient / total SD)
+------------------------------------------------------------------------------
+outcome                           d_adj     magnitude    p_fdr
+log_delta_abs                     -2.00    very large    0.015 *
+log_fast_gamma_abs                -1.37    very large    0.136 
+log_low_gamma_abs                 -1.04         large    0.235 
+log_beta_abs                      -1.01         large    0.235 
+log_theta_abs                     -0.98         large    0.235 
+log_high_gamma_abs                -0.90         large    0.258 
+log_beta_theta                    +0.18    negligible    0.772 
+log_fast_gamma_theta              +0.36         small    0.610 
+log_low_gamma_theta               +0.36         small    0.610 
+log_theta_delta                   +0.60        medium    0.459 
+log_high_gamma_theta              +0.68        medium    0.417 
+
+Note: classical d is essentially zero for all band powers
+      because the body-weight difference cancels much of
+      the diet signal in the raw data. Adjusted d recovers
+      the diet effect after controlling for body weight,
+      days on diet, and estrous phase. This is the central
+      methodological argument for using mixed-effects models.
+
+'*' marks rows where the mixed-model p_FDR < 0.05.

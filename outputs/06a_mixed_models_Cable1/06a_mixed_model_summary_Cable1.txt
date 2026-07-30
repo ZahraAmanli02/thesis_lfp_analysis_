@@ -1,0 +1,46 @@
+======================================================================
+06A MIXED-MODEL SUMMARY — Cable1
+======================================================================
+
+Model:   outcome ~ group * days_on_diet + body_weight + C(estrous_phase)
+Random:  (1 | mouse)
+Method:  REML (statsmodels.MixedLM, lbfgs)
+Sample:  89 recordings / 19 mice (diet-phase only)
+Estrous: A is reference (Caligioni 2009)
+
+----------------------------------------------------------------------
+PRIMARY — group[T.HF] main effect (with FDR-BH correction)
+----------------------------------------------------------------------
+outcome                            coef      se    p_raw    p_fdr  conv
+log_delta_abs                    -0.781   0.244    0.001    0.015   Yes *
+log_fast_gamma_abs               -0.446   0.199    0.025    0.136   Yes 
+log_low_gamma_abs                -0.475   0.282    0.091    0.235   Yes 
+log_beta_abs                     -0.535   0.325    0.100    0.235   Yes 
+log_theta_abs                    -0.602   0.373    0.107    0.235   Yes 
+log_high_gamma_abs               -0.365   0.248    0.141    0.258   Yes 
+log_high_gamma_theta             +0.228   0.205    0.265    0.417   Yes 
+log_theta_delta                  +0.218   0.226    0.334    0.459   Yes 
+log_low_gamma_theta              +0.110   0.185    0.553    0.610   Yes 
+log_fast_gamma_theta             +0.160   0.270    0.554    0.610   Yes 
+log_beta_theta                   +0.045   0.157    0.772    0.772   Yes 
+
+----------------------------------------------------------------------
+EXPLORATORY — group[T.HF] main effect (no FDR correction)
+----------------------------------------------------------------------
+outcome                            coef      se    p_raw  conv
+low_gamma_mean_duration_sec      -0.104   0.035    0.003   Yes *
+low_gamma_fraction_of_time       -0.019   0.008    0.025   Yes *
+high_gamma_mean_duration_sec     -0.030   0.015    0.052   Yes 
+high_gamma_mean_amplitude       -48.975  28.620    0.087   Yes 
+low_gamma_episode_rate           -2.750   1.640    0.094   Yes 
+high_gamma_fraction_of_time      -0.005   0.003    0.103   Yes 
+low_gamma_mean_amplitude        -59.254  36.630    0.106   Yes 
+high_gamma_episode_rate          -1.404   0.890    0.115   Yes 
+beta_mean_duration_sec           -0.077   0.057    0.181   Yes 
+beta_fraction_of_time            -0.019   0.016    0.231   Yes 
+beta_mean_amplitude             -31.892  59.965    0.595   Yes 
+beta_episode_rate                -1.110   2.483    0.655   Yes 
+
+Note: '*' marks rows where the relevant p < 0.05.
+      Full coefficients (days_on_diet, interaction,
+      body_weight, estrous phases) are in the CSV.
