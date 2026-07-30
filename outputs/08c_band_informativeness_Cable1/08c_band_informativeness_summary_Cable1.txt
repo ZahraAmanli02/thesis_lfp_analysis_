@@ -1,0 +1,61 @@
+========================================================================
+08C BAND INFORMATIVENESS FOR DIET — Cable1
+========================================================================
+
+Observations : 125 recordings / 19 mice (HF 65 / CTRL 60)
+Per-band features : log(abs power) + relative power (2 each)
+Validation   : leave-one-mouse-out
+Chance / majority-class accuracy : 0.500 / 0.520
+
+------------------------------------------------------------------------
+band             model                   bal_acc  roc_auc     acc
+------------------------------------------------------------------------
+delta            logistic_regression       0.477    0.494   0.480
+delta            svm_rbf                   0.110    0.053   0.112
+delta            random_forest             0.319    0.256   0.320
+
+theta            logistic_regression       0.492    0.377   0.488
+theta            svm_rbf                   0.301    0.248   0.304
+theta            random_forest             0.381    0.316   0.384
+
+beta             logistic_regression       0.428    0.336   0.424
+beta             svm_rbf                   0.140    0.051   0.144
+beta             random_forest             0.367    0.277   0.368
+
+low_gamma        logistic_regression       0.344    0.257   0.344
+low_gamma        svm_rbf                   0.500    0.360   0.504
+low_gamma        random_forest             0.408    0.393   0.408
+
+high_gamma       logistic_regression       0.540    0.416   0.544
+high_gamma       svm_rbf                   0.465    0.314   0.472
+high_gamma       random_forest             0.443    0.388   0.448
+
+fast_gamma       logistic_regression       0.348    0.229   0.352
+fast_gamma       svm_rbf                   0.319    0.181   0.328
+fast_gamma       random_forest             0.343    0.314   0.344
+
+all_bands_power  logistic_regression       0.498    0.429   0.496
+all_bands_power  svm_rbf                   0.372    0.285   0.376
+all_bands_power  random_forest             0.337    0.298   0.336
+
+------------------------------------------------------------------------
+RANKING by ROC-AUC (logistic_regression); + permutation p
+------------------------------------------------------------------------
+rank  band            roc_auc  bal_acc   perm_p
+1     delta             0.494    0.477   0.6563
+2     high_gamma        0.416    0.540   0.3826
+3     theta             0.377    0.492   0.5954
+4     beta              0.336    0.428   0.7772
+5     low_gamma         0.257    0.344   0.8931
+6     fast_gamma        0.229    0.348   0.8931
+
+Most informative band : delta
+Least informative band: fast_gamma
+
+Reading guide:
+  - Ranking is RELATIVE. If no band's permutation p < 0.05, no
+    single band classifies diet above chance on its own; the
+    ranking then says which band is least uninformative, not
+    that it is a reliable predictor.
+  - Compare with Step 06: the band that was significant there
+    (delta) is worth checking against its rank here.

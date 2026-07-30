@@ -1,0 +1,30 @@
+======================================================================
+08B BODY-WEIGHT PREDICTION FROM LFP — Cable1
+======================================================================
+
+Observations : 125 recordings / 19 mice
+Target       : body weight (mean 31.8 g, range 25.2-40.0 g)
+Features     : 29 LFP-derived (weight is the target; diet group excluded)
+Validation   : leave-one-mouse-out
+Baseline MAE (predict the mean) : 3.01 g
+
+----------------------------------------------------------------------
+model                  R2    MAE (g)  vs baseline
+----------------------------------------------------------------------
+ridge              -0.151       3.19        +0.17
+svr_rbf            -0.253       3.26        +0.24
+random_forest      -0.371       3.51        +0.49
+
+----------------------------------------------------------------------
+PERMUTATION TEST (Ridge, LOMO)
+----------------------------------------------------------------------
+  observed R2   : -0.151
+  null-mean R2  : -0.236
+  p-value (1000) : 0.2218
+
+Reading guide:
+  - R2 <= 0 means LFP does not predict weight better than just
+    guessing the average weight (MAE >= baseline).
+  - MAE is in grams: 'on average we are off by this much'.
+  - A positive R2 that beats the permutation null would be
+    evidence of a genuine LFP -> body-weight relationship.

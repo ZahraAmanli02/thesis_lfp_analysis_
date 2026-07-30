@@ -1,0 +1,48 @@
+==========================================================================
+10A FEATURE PREP — Cable1
+==========================================================================
+
+Input  : /Users/amanlizahra/Desktop/thesis_lfp_analysis/outputs/05a_band_powers_Cable1/05a_band_powers_Cable1.csv
+Output : /Users/amanlizahra/Desktop/thesis_lfp_analysis/outputs/10a_features_Cable1/10a_features_Cable1.csv
+
+Rows in 05a               : 125
+Dropped (no estrous phase): 0
+Rows kept for modelling   : 125
+HF / CTRL                 : 65 / 60
+Unique mice               : 19
+
+Eligibility rule (per phase):
+  n >= 12, mice >= 6, both groups present
+
+phase       n  mice   HF  CTRL   eligible  reason
+A          27    15   17    10       True  
+B          33    17   20    13       True  
+C          18    11    5    13       True  
+D          47    18   23    24       True  
+
+Feature columns added (per band):
+  log_delta_abs   (log10 of delta_abs)
+  log_theta_abs   (log10 of theta_abs)
+  log_beta_abs   (log10 of beta_abs)
+  log_low_gamma_abs   (log10 of low_gamma_abs)
+  log_high_gamma_abs   (log10 of high_gamma_abs)
+  log_fast_gamma_abs   (log10 of fast_gamma_abs)
+
+Feature columns added (band-to-band ratios, from absolute power):
+  log_theta_delta        = log10(theta_abs / delta_abs)
+  log_beta_delta         = log10(beta_abs / delta_abs)
+  log_low_gamma_delta    = log10(low_gamma_abs / delta_abs)
+  log_high_gamma_delta   = log10(high_gamma_abs / delta_abs)
+  log_fast_gamma_delta   = log10(fast_gamma_abs / delta_abs)
+  log_beta_theta         = log10(beta_abs / theta_abs)
+  log_low_gamma_theta    = log10(low_gamma_abs / theta_abs)
+  log_high_gamma_theta   = log10(high_gamma_abs / theta_abs)
+  log_fast_gamma_theta   = log10(fast_gamma_abs / theta_abs)
+  log_low_gamma_beta     = log10(low_gamma_abs / beta_abs)
+  log_high_gamma_beta    = log10(high_gamma_abs / beta_abs)
+  log_fast_gamma_beta    = log10(fast_gamma_abs / beta_abs)
+  log_high_gamma_low_gamma = log10(high_gamma_abs / low_gamma_abs)
+  log_fast_gamma_low_gamma = log10(fast_gamma_abs / low_gamma_abs)
+  log_fast_gamma_high_gamma = log10(fast_gamma_abs / high_gamma_abs)
+
+Next: run 10b_classify_group.py and 10c_regress_weight.py.

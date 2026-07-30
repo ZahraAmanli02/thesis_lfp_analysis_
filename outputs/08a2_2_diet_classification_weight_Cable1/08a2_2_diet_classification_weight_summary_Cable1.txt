@@ -1,0 +1,46 @@
+========================================================================
+08A2 DIET CLASSIFICATION — WEIGHT CONTROL COMPARISON — Cable1
+========================================================================
+
+Observations : 125 recordings / 19 mice (HF 65 / CTRL 60)
+Validation   : leave-one-mouse-out
+Chance / majority-class accuracy : 0.500 / 0.520
+
+------------------------------------------------------------------------
+feature set        model                   bal_acc  roc_auc     acc
+------------------------------------------------------------------------
+lfp_only           logistic_regression       0.438    0.448   0.440
+lfp_only           svm_rbf                   0.463    0.349   0.464
+lfp_only           random_forest             0.367    0.312   0.368
+
+weight_only        logistic_regression       0.787    0.794   0.784
+weight_only        svm_rbf                   0.729    0.696   0.728
+weight_only        random_forest             0.609    0.734   0.608
+
+lfp_plus_weight    logistic_regression       0.681    0.715   0.680
+lfp_plus_weight    svm_rbf                   0.670    0.680   0.672
+lfp_plus_weight    random_forest             0.566    0.556   0.568
+
+weight_plus_estrous logistic_regression       0.762    0.796   0.760
+weight_plus_estrous svm_rbf                   0.723    0.723   0.720
+weight_plus_estrous random_forest             0.665    0.746   0.664
+
+lfp_weight_estrous logistic_regression       0.697    0.717   0.696
+lfp_weight_estrous svm_rbf                   0.654    0.704   0.656
+lfp_weight_estrous random_forest             0.566    0.544   0.568
+
+------------------------------------------------------------------------
+PERMUTATION TEST (logistic regression, LOMO)
+------------------------------------------------------------------------
+feature set         observed   chance        p
+lfp_only               0.438    0.489   0.7023
+weight_only            0.787    0.506   0.0070
+lfp_plus_weight        0.681    0.490   0.0250
+weight_plus_estrous     0.762    0.499   0.0090
+lfp_weight_estrous     0.697    0.487   0.0170
+
+Reading guide:
+  - lfp_only near chance  -> LFP alone does not separate diet.
+  - weight_only high      -> body weight carries the signal.
+  - lfp_plus_weight ~ weight_only -> LFP adds little on top of
+    weight; the separable information is metabolic, not in LFP.

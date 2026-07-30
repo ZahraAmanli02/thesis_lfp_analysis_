@@ -1,0 +1,33 @@
+======================================================================
+08A DIET CLASSIFICATION (HF vs CTRL) — Cable1
+======================================================================
+
+Observations : 125 recordings / 19 mice (HF 65 / CTRL 60)
+Features     : 29 LFP-derived (6 log power, 6 rel power, 5 log ratio, 12 episode)
+               body weight EXCLUDED by design
+Primary CV   : leave-one-mouse-out (no mouse in train+test)
+Majority-class accuracy (context) : 0.520
+
+----------------------------------------------------------------------
+model                  CV scheme             bal_acc  roc_auc     acc
+----------------------------------------------------------------------
+logistic_regression    LOMO (valid)            0.438    0.448   0.440
+logistic_regression    random (leakage)        0.610    0.687   0.608
+svm_rbf                LOMO (valid)            0.463    0.349   0.464
+svm_rbf                random (leakage)        0.569    0.584   0.576
+random_forest          LOMO (valid)            0.367    0.312   0.368
+random_forest          random (leakage)        0.591    0.657   0.592
+
+----------------------------------------------------------------------
+PERMUTATION TEST (logistic regression, LOMO)
+----------------------------------------------------------------------
+  observed balanced accuracy : 0.438
+  empirical chance level     : 0.489
+  p-value (1000 shuffles)     : 0.7023
+
+Reading guide:
+  - LOMO is the valid estimate. The random-split row is shown
+    only to expose leakage: a large random-minus-LOMO gap means
+    the classifier was reading mouse identity, not diet.
+  - Body weight is excluded on purpose; this tests LFP itself,
+    complementing the 06 mixed model (which controlled for it).

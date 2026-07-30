@@ -1,0 +1,214 @@
+====================================================================================================
+10B BOOTSTRAP FULL  —  pooled Cable1 + Cable3, cluster-level
+====================================================================================================
+
+Design:
+  * pool: Cable1 (125 rec) + Cable3 (83 rec) = 208 rec, 19 unique animals
+  * cluster bootstrap: sample mice with replacement (mouse_uid = mouse_id; same animal in both cables travels together)
+  * OOB = mice not drawn this iteration
+  * 1000 iterations per (phase × cell), skip if OOB < 5 rows or single-class
+  * SVM-RBF + Random Forest (200 trees), class_weight='balanced'
+  * metric: balanced accuracy on OOB rows
+  * eligibility: min 8 rec, min 6 mice per phase
+
+----------------------------------------------------------------------------------------------------
+SVM_RBF  —  bootstrap MEAN balanced accuracy  (chance = 0.500)
+----------------------------------------------------------------------------------------------------
+cell   delta  theta   beta  low_gamma  high_gamma  fast_gamma  theta_delta  beta_delta  low_gamma_delta  high_gamma_delta  fast_gamma_delta  beta_theta  low_gamma_theta  high_gamma_theta  fast_gamma_theta  low_gamma_beta  high_gamma_beta  fast_gamma_beta  high_gamma_low_gamma  fast_gamma_low_gamma  fast_gamma_high_gamma
+phase                                                                                                                                                                                                                                                                                                                            
+A      0.421  0.398  0.547      0.397       0.468       0.487        0.401       0.536            0.447             0.504             0.449       0.695            0.439             0.495             0.471           0.610            0.672            0.596                 0.719                 0.529                  0.424
+B      0.633  0.574  0.515      0.537       0.558       0.549        0.589       0.625            0.651             0.673             0.679       0.494            0.453             0.420             0.467           0.435            0.421            0.437                 0.396                 0.438                  0.422
+C      0.454  0.463  0.437      0.625       0.437       0.440        0.387       0.418            0.460             0.429             0.402       0.400            0.433             0.514             0.488           0.472            0.464            0.466                 0.429                 0.426                  0.385
+D      0.485  0.508  0.520      0.536       0.520       0.490        0.479       0.517            0.499             0.482             0.470       0.403            0.469             0.517             0.460           0.571            0.463            0.465                 0.454                 0.436                  0.482
+
+SVM_RBF  —  95% percentile CI  [lo, hi]
+----------------------------------------------------------------------------------------------------
+  phase A  delta                   [0.146, 0.685]
+  phase A  theta                   [0.129, 0.663]
+  phase A  beta                    [0.285, 0.805]
+  phase A  low_gamma               [0.135, 0.650]
+  phase A  high_gamma              [0.205, 0.700]
+  phase A  fast_gamma              [0.192, 0.724]
+  phase A  theta_delta             [0.171, 0.642]
+  phase A  beta_delta              [0.307, 0.765]
+  phase A  low_gamma_delta         [0.250, 0.614]
+  phase A  high_gamma_delta        [0.250, 0.731]
+  phase A  fast_gamma_delta        [0.217, 0.632]
+  phase A  beta_theta              [0.420, 0.900]
+  phase A  low_gamma_theta         [0.168, 0.683]
+  phase A  high_gamma_theta        [0.147, 0.722]
+  phase A  fast_gamma_theta        [0.167, 0.688]
+  phase A  low_gamma_beta          [0.333, 0.833]
+  phase A  high_gamma_beta         [0.389, 0.950]
+  phase A  fast_gamma_beta         [0.310, 0.854]
+  phase A  high_gamma_low_gamma    [0.417, 0.944]
+  phase A  fast_gamma_low_gamma    [0.250, 0.771]
+  phase A  fast_gamma_high_gamma   [0.160, 0.683]
+  phase B  delta                   [0.421, 0.833]
+  phase B  theta                   [0.321, 0.800]
+  phase B  beta                    [0.292, 0.708]
+  phase B  low_gamma               [0.292, 0.773]
+  phase B  high_gamma              [0.327, 0.790]
+  phase B  fast_gamma              [0.302, 0.779]
+  phase B  theta_delta             [0.333, 0.787]
+  phase B  beta_delta              [0.443, 0.813]
+  phase B  low_gamma_delta         [0.463, 0.834]
+  phase B  high_gamma_delta        [0.483, 0.862]
+  phase B  fast_gamma_delta        [0.513, 0.862]
+  phase B  beta_theta              [0.224, 0.750]
+  phase B  low_gamma_theta         [0.192, 0.670]
+  phase B  high_gamma_theta        [0.180, 0.675]
+  phase B  fast_gamma_theta        [0.204, 0.706]
+  phase B  low_gamma_beta          [0.224, 0.623]
+  phase B  high_gamma_beta         [0.226, 0.639]
+  phase B  fast_gamma_beta         [0.221, 0.667]
+  phase B  high_gamma_low_gamma    [0.173, 0.594]
+  phase B  fast_gamma_low_gamma    [0.213, 0.701]
+  phase B  fast_gamma_high_gamma   [0.165, 0.669]
+  phase C  delta                   [0.100, 0.801]
+  phase C  theta                   [0.121, 0.875]
+  phase C  beta                    [0.083, 0.800]
+  phase C  low_gamma               [0.250, 1.000]
+  phase C  high_gamma              [0.071, 0.786]
+  phase C  fast_gamma              [0.100, 0.785]
+  phase C  theta_delta             [0.071, 0.713]
+  phase C  beta_delta              [0.100, 0.779]
+  phase C  low_gamma_delta         [0.100, 0.800]
+  phase C  high_gamma_delta        [0.100, 0.750]
+  phase C  fast_gamma_delta        [0.100, 0.688]
+  phase C  beta_theta              [0.100, 0.709]
+  phase C  low_gamma_theta         [0.083, 0.784]
+  phase C  high_gamma_theta        [0.083, 0.875]
+  phase C  fast_gamma_theta        [0.100, 0.833]
+  phase C  low_gamma_beta          [0.143, 0.833]
+  phase C  high_gamma_beta         [0.125, 0.812]
+  phase C  fast_gamma_beta         [0.111, 0.833]
+  phase C  high_gamma_low_gamma    [0.101, 0.750]
+  phase C  fast_gamma_low_gamma    [0.062, 0.792]
+  phase C  fast_gamma_high_gamma   [0.000, 0.675]
+  phase D  delta                   [0.240, 0.731]
+  phase D  theta                   [0.234, 0.750]
+  phase D  beta                    [0.289, 0.750]
+  phase D  low_gamma               [0.298, 0.750]
+  phase D  high_gamma              [0.271, 0.750]
+  phase D  fast_gamma              [0.250, 0.731]
+  phase D  theta_delta             [0.245, 0.673]
+  phase D  beta_delta              [0.357, 0.687]
+  phase D  low_gamma_delta         [0.345, 0.635]
+  phase D  high_gamma_delta        [0.292, 0.617]
+  phase D  fast_gamma_delta        [0.269, 0.635]
+  phase D  beta_theta              [0.178, 0.596]
+  phase D  low_gamma_theta         [0.227, 0.667]
+  phase D  high_gamma_theta        [0.260, 0.728]
+  phase D  fast_gamma_theta        [0.203, 0.680]
+  phase D  low_gamma_beta          [0.367, 0.762]
+  phase D  high_gamma_beta         [0.227, 0.659]
+  phase D  fast_gamma_beta         [0.243, 0.656]
+  phase D  high_gamma_low_gamma    [0.222, 0.665]
+  phase D  fast_gamma_low_gamma    [0.188, 0.652]
+  phase D  fast_gamma_high_gamma   [0.251, 0.708]
+
+----------------------------------------------------------------------------------------------------
+RANDOM_FOREST  —  bootstrap MEAN balanced accuracy  (chance = 0.500)
+----------------------------------------------------------------------------------------------------
+cell   delta  theta   beta  low_gamma  high_gamma  fast_gamma  theta_delta  beta_delta  low_gamma_delta  high_gamma_delta  fast_gamma_delta  beta_theta  low_gamma_theta  high_gamma_theta  fast_gamma_theta  low_gamma_beta  high_gamma_beta  fast_gamma_beta  high_gamma_low_gamma  fast_gamma_low_gamma  fast_gamma_high_gamma
+phase                                                                                                                                                                                                                                                                                                                            
+A      0.349  0.449  0.529      0.386       0.464       0.484        0.382       0.544            0.475             0.534             0.456       0.625            0.484             0.730             0.510           0.566            0.557            0.537                 0.619                 0.422                  0.598
+B      0.635  0.533  0.542      0.526       0.584       0.578        0.545       0.660            0.600             0.595             0.503       0.589            0.483             0.350             0.453           0.518            0.435            0.482                 0.546                 0.425                  0.433
+C      0.412  0.421  0.437      0.539       0.421       0.460        0.379       0.389            0.358             0.582             0.493       0.433            0.386             0.444             0.480           0.502            0.400            0.569                 0.496                 0.593                  0.358
+D      0.505  0.510  0.513      0.521       0.510       0.527        0.477       0.481            0.540             0.496             0.522       0.458            0.504             0.561             0.488           0.559            0.520            0.508                 0.414                 0.473                  0.483
+
+RANDOM_FOREST  —  95% percentile CI  [lo, hi]
+----------------------------------------------------------------------------------------------------
+  phase A  delta                   [0.083, 0.565]
+  phase A  theta                   [0.203, 0.688]
+  phase A  beta                    [0.297, 0.735]
+  phase A  low_gamma               [0.125, 0.600]
+  phase A  high_gamma              [0.193, 0.687]
+  phase A  fast_gamma              [0.210, 0.722]
+  phase A  theta_delta             [0.143, 0.588]
+  phase A  beta_delta              [0.304, 0.721]
+  phase A  low_gamma_delta         [0.267, 0.672]
+  phase A  high_gamma_delta        [0.292, 0.750]
+  phase A  fast_gamma_delta        [0.238, 0.646]
+  phase A  beta_theta              [0.401, 0.830]
+  phase A  low_gamma_theta         [0.227, 0.708]
+  phase A  high_gamma_theta        [0.478, 0.944]
+  phase A  fast_gamma_theta        [0.250, 0.750]
+  phase A  low_gamma_beta          [0.328, 0.800]
+  phase A  high_gamma_beta         [0.282, 0.800]
+  phase A  fast_gamma_beta         [0.275, 0.777]
+  phase A  high_gamma_low_gamma    [0.341, 0.857]
+  phase A  fast_gamma_low_gamma    [0.152, 0.667]
+  phase A  fast_gamma_high_gamma   [0.350, 0.804]
+  phase B  delta                   [0.424, 0.833]
+  phase B  theta                   [0.290, 0.750]
+  phase B  beta                    [0.315, 0.744]
+  phase B  low_gamma               [0.273, 0.718]
+  phase B  high_gamma              [0.388, 0.769]
+  phase B  fast_gamma              [0.357, 0.778]
+  phase B  theta_delta             [0.337, 0.773]
+  phase B  beta_delta              [0.458, 0.859]
+  phase B  low_gamma_delta         [0.376, 0.792]
+  phase B  high_gamma_delta        [0.349, 0.775]
+  phase B  fast_gamma_delta        [0.299, 0.679]
+  phase B  beta_theta              [0.361, 0.789]
+  phase B  low_gamma_theta         [0.281, 0.692]
+  phase B  high_gamma_theta        [0.100, 0.542]
+  phase B  fast_gamma_theta        [0.232, 0.667]
+  phase B  low_gamma_beta          [0.309, 0.708]
+  phase B  high_gamma_beta         [0.186, 0.625]
+  phase B  fast_gamma_beta         [0.260, 0.679]
+  phase B  high_gamma_low_gamma    [0.320, 0.750]
+  phase B  fast_gamma_low_gamma    [0.224, 0.628]
+  phase B  fast_gamma_high_gamma   [0.210, 0.658]
+  phase C  delta                   [0.090, 0.709]
+  phase C  theta                   [0.100, 0.708]
+  phase C  beta                    [0.143, 0.812]
+  phase C  low_gamma               [0.167, 0.857]
+  phase C  high_gamma              [0.046, 0.699]
+  phase C  fast_gamma              [0.100, 0.750]
+  phase C  theta_delta             [0.091, 0.724]
+  phase C  beta_delta              [0.140, 0.714]
+  phase C  low_gamma_delta         [0.074, 0.667]
+  phase C  high_gamma_delta        [0.250, 0.900]
+  phase C  fast_gamma_delta        [0.200, 0.857]
+  phase C  beta_theta              [0.110, 0.750]
+  phase C  low_gamma_theta         [0.100, 0.700]
+  phase C  high_gamma_theta        [0.141, 0.750]
+  phase C  fast_gamma_theta        [0.167, 0.812]
+  phase C  low_gamma_beta          [0.150, 0.833]
+  phase C  high_gamma_beta         [0.125, 0.684]
+  phase C  fast_gamma_beta         [0.300, 0.917]
+  phase C  high_gamma_low_gamma    [0.209, 0.850]
+  phase C  fast_gamma_low_gamma    [0.222, 0.917]
+  phase C  fast_gamma_high_gamma   [0.071, 0.700]
+  phase D  delta                   [0.266, 0.720]
+  phase D  theta                   [0.300, 0.707]
+  phase D  beta                    [0.306, 0.700]
+  phase D  low_gamma               [0.297, 0.721]
+  phase D  high_gamma              [0.260, 0.710]
+  phase D  fast_gamma              [0.301, 0.727]
+  phase D  theta_delta             [0.256, 0.677]
+  phase D  beta_delta              [0.276, 0.666]
+  phase D  low_gamma_delta         [0.366, 0.676]
+  phase D  high_gamma_delta        [0.300, 0.672]
+  phase D  fast_gamma_delta        [0.313, 0.733]
+  phase D  beta_theta              [0.272, 0.638]
+  phase D  low_gamma_theta         [0.319, 0.695]
+  phase D  high_gamma_theta        [0.352, 0.752]
+  phase D  fast_gamma_theta        [0.285, 0.667]
+  phase D  low_gamma_beta          [0.392, 0.730]
+  phase D  high_gamma_beta         [0.330, 0.692]
+  phase D  fast_gamma_beta         [0.316, 0.673]
+  phase D  high_gamma_low_gamma    [0.220, 0.608]
+  phase D  fast_gamma_low_gamma    [0.281, 0.678]
+  phase D  fast_gamma_high_gamma   [0.275, 0.678]
+
+====================================================================================================
+READING GUIDE
+====================================================================================================
+  * boot_mean > 0.5 => model, on average, predicts diet better than chance.
+  * If the 95% CI EXCLUDES 0.5, that's evidence of above-chance performance.
+  * A phase-specific effect appears as one row whose CI clearly
+    excludes 0.5 for a given cell while other rows straddle 0.5.
