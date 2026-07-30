@@ -1,0 +1,29 @@
+
+============================================================
+METHOD NOTE  (paste into thesis / presentation)
+============================================================
+
+Objective outlier detection (mouse level)
+-----------------------------------------
+To avoid subjective exclusion of animals, each mouse was
+screened with a transparent, reproducible criterion before
+proceeding with downstream analysis.
+
+For each mouse, the broadband total power (1–140 Hz)
+of every recording was computed from its multitaper PSD.
+Three summary statistics were derived per mouse on the
+log10-transformed values: the median, the maximum, and the
+inter-quartile range across recordings.
+
+A robust modified z-score
+(Iglewicz & Hoaglin, 1993; z = 0.6745 * (x - median) / MAD)
+was computed across mice for each of the three statistics.
+A mouse was flagged as an outlier if z > +3.5 (high side only)
+on at least one of the three metrics. Only abnormally HIGH power or
+variability is treated as an outlier; an unusually low or very
+consistent mouse is not flagged.
+
+All downstream analyses were then performed in TWO versions:
+including all mice, and excluding flagged outlier mice. This
+allows the reader to assess whether any reported group effect
+depends on the outlier(s).
