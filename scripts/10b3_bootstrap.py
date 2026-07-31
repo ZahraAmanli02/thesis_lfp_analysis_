@@ -13,7 +13,7 @@
 #   * uniform bar colour — no confirmation/CI-based highlighting
 #   * bars grow bottom-up; mean value printed on top of each bar
 #   * chance reference line at 0.5
-#   * x-axis label per bar: phase letter + cell name (2 lines)
+#   
 #
 # Input:
 #   outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv
@@ -197,7 +197,6 @@ ax.set_ylim(0.0, 0.9)
 ax.set_yticks([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9])
 ax.set_ylabel("Balanced accuracy (bootstrap mean)", fontsize=11, labelpad=8)
 
-# hide the default x-axis label text; we'll use fig.text
 ax.set_xlabel("")
 
 # titles
