@@ -32,6 +32,49 @@ OUT_DIR = os.path.join(OUTPUT_DIR, "15_source_data")
 os.makedirs(OUT_DIR, exist_ok=True)
 OUT_XLSX = os.path.join(OUT_DIR, "source_data_Amanli.xlsx")
 
+# GitHub repository (public) — full URL used per figure and in the README
+GITHUB_BASE = ("https://github.com/ZahraAmanli02/thesis_lfp_analysis_"
+               "/blob/main/scripts")
+
+# per-figure code URLs (both the figure-drawing script and the analysis script
+# that produced its underlying numbers)
+FIG_CODE_URLS = {
+    1: {"figure": f"{GITHUB_BASE}/10b5_bootstrap_heatmap_clean.py",
+        "analysis": f"{GITHUB_BASE}/10b_bootstrap_full.py"},
+    2: {"figure": f"{GITHUB_BASE}/10b3_bootstrap.py",
+        "analysis": f"{GITHUB_BASE}/10b_bootstrap_full.py"},
+    3: {"figure": f"{GITHUB_BASE}/10b4_bootstrap.py",
+        "analysis": f"{GITHUB_BASE}/10b_bootstrap_full.py"},
+    4: {"figure": f"{GITHUB_BASE}/11c2_bootstrap_weight_top10.py",
+        "analysis": f"{GITHUB_BASE}/11c1_bootstrap_weight_full.py"},
+    5: {"figure": f"{GITHUB_BASE}/11c3_bootstrap_weight_per_phase.py",
+        "analysis": f"{GITHUB_BASE}/11c1_bootstrap_weight_full.py"},
+    6: {"figure": f"{GITHUB_BASE}/11c5_within_mouse_correlation.py",
+        "analysis": f"{GITHUB_BASE}/11c5_within_mouse_correlation.py"},
+    7: {"figure": f"{GITHUB_BASE}/12_rq3_cross_task_bootstrap.py",
+        "analysis": f"{GITHUB_BASE}/12_rq3_cross_task_bootstrap.py"},
+    8: {"figure": f"{GITHUB_BASE}/12b_rq3_band_vs_ratio_bootstrap.py",
+        "analysis": f"{GITHUB_BASE}/12b_rq3_band_vs_ratio_bootstrap.py"},
+}
+
+# pooled feature CSVs (input to the models — the raw source data)
+CABLE1_FEAT_CSV = os.path.join(
+    OUTPUT_DIR, "10a_features_Cable1", "10a_features_Cable1.csv"
+)
+CABLE3_FEAT_CSV = (
+    "/Users/amanlizahra/Desktop/For CABLE 3/thesis_lfp_analysis/"
+    "outputs/10a_features_Cable3/10a_features_Cable3.csv"
+)
+
+# per-iteration bootstrap CSVs (numbers that were averaged into the summary)
+RQ1_ITER_CSV = os.path.join(
+    OUTPUT_DIR, "10b_bootstrap_full", "10b_bootstrap_iterations.csv"
+)
+RQ2_ITER_CSV = os.path.join(
+    OUTPUT_DIR, "11c1_bootstrap_weight_full",
+    "11c1_bootstrap_weight_iterations.csv"
+)
+
 BANDS = ["delta", "theta", "beta", "low_gamma", "high_gamma", "fast_gamma"]
 SLOW_BANDS = ["delta", "theta", "beta"]
 GAMMA_BANDS = ["low_gamma", "high_gamma", "fast_gamma"]
@@ -605,8 +648,24 @@ def write_figure_sheet(wb, fig_id, tables):
     result_cell.alignment = Alignment(wrap_text=True, vertical="top")
     ws.row_dimensions[7].height = 70
 
-    # 4. Embedded figure image
-    img_row = 9
+    # 4. GitHub link — code that generated this figure and its numbers
+    urls = FIG_CODE_URLS.get(fig_id, {})
+    ws.cell(row=9, column=1, value="Code (GitHub):").font = SECTION_FONT
+    link_font = Font(name="Calibri", size=10, color="0563C1", underline="single")
+    if urls.get("figure"):
+        c = ws.cell(row=10, column=1,
+                    value=f"Figure-drawing script: {urls['figure']}")
+        c.font = link_font
+        c.hyperlink = urls["figure"]
+    if urls.get("analysis") and urls.get("analysis") != urls.get("figure"):
+        c = ws.cell(row=11, column=1,
+                    value=f"Analysis script (produces the numbers): "
+                          f"{urls['analysis']}")
+        c.font = link_font
+        c.hyperlink = urls["analysis"]
+
+    # 5. Embedded figure image
+    img_row = 13
     img_path = FIG_PNG[fig_id]
     if os.path.exists(img_path):
         img, img_h_px = scaled_image(img_path)
@@ -651,11 +710,31 @@ def write_readme(wb):
     ws.cell(row=1, column=1,
             value="Source data for the thesis figures — Amanli, MSc thesis") \
         .font = TITLE_FONT
+
+    # GitHub link at the top of the README (clickable hyperlink)
+    ws.cell(row=2, column=1, value="Code repository (GitHub):").font = SECTION_FONT
+    github_url = "https://github.com/ZahraAmanli02/thesis_lfp_analysis_"
+    link_cell = ws.cell(row=3, column=1, value=github_url)
+    link_cell.font = Font(name="Calibri", size=11, color="0563C1",
+                          underline="single")
+    link_cell.hyperlink = github_url
+
     lines = [
         "",
         "Each sheet named 'Figure N' contains the numeric data behind the "
-        "corresponding thesis figure, together with the figure image and a "
-        "short caption.",
+        "corresponding thesis figure, together with the figure image, a short "
+        "caption, and a hyperlink to the code that generated the figure and "
+        "its underlying numbers.",
+        "",
+        "For every figure sheet, the raw per-iteration bootstrap values that "
+        "were averaged into the plotted means are included as a sub-table "
+        "directly below the summary table on the same sheet. Figures 6 and 8 "
+        "already show individual per-mouse / per-cell values in their own "
+        "sub-tables and therefore do not need an additional iteration table.",
+        "",
+        "The workbook also contains one extra sheet with the model input data:",
+        "  • 'Pooled features (input)' — the 208-recording feature table that "
+        "was fed to every model (raw input source data, produced by 10a).",
         "",
         "Research questions covered:",
         "  • RQ1 — Can the LFP (CFD-derived band powers) classify diet group? "
@@ -736,7 +815,7 @@ def write_readme(wb):
         "  • Figure 8  — RQ3: band vs ratio + slow vs gamma comparison",
         "                (two sub-tables: per-cell values + group summary)",
     ]
-    for i, line in enumerate(lines, start=2):
+    for i, line in enumerate(lines, start=5):
         c = ws.cell(row=i, column=1, value=line)
         if line and not line.startswith("  "):
             c.font = SECTION_FONT
@@ -750,29 +829,216 @@ if "Sheet" in wb.sheetnames:
     del wb["Sheet"]
 
 write_readme(wb)
-write_figure_sheet(wb, 1, [(None, fig1)])
-write_figure_sheet(wb, 2, [(None, fig2)])
-write_figure_sheet(wb, 3, [(None, fig3)])
-write_figure_sheet(wb, 4, [(None, fig4)])
-write_figure_sheet(wb, 5, [(None, fig5)])
+# ============================================================
+# LOAD PER-ITERATION CSVs (raw numbers averaged into each figure)
+# ============================================================
+rq1_iter = pd.read_csv(RQ1_ITER_CSV) if os.path.exists(RQ1_ITER_CSV) else None
+rq2_iter = pd.read_csv(RQ2_ITER_CSV) if os.path.exists(RQ2_ITER_CSV) else None
+
+
+def _iter_table(df, subset_col_map=None):
+    """Format an iteration DataFrame for inclusion inside a figure sheet."""
+    d = df.copy()
+    if "cell" in d.columns:
+        d.insert(d.columns.get_loc("cell") + 1, "cell_pretty",
+                 d["cell"].apply(format_cell))
+    if "phase" in d.columns:
+        d.insert(d.columns.get_loc("phase") + 1, "phase_name",
+                 d["phase"].map(PHASE_NAMES))
+    return d
+
+
+# ---- Figure 1: summary + all RQ1 iterations (SVM + RF, every cell) ----
+fig1_iter_table = _iter_table(rq1_iter) if rq1_iter is not None else None
+fig1_iter_hdr = (
+    f"Raw source data — every bootstrap iteration that fed the averages "
+    f"above ({0 if rq1_iter is None else len(rq1_iter):,} rows; "
+    "84 phase×feature cells × 2 models × 1000 iterations)."
+)
+
+write_figure_sheet(wb, 1,
+    [("Summary — bootstrap mean and 95% CI per phase × feature × model", fig1)]
+    + ([(fig1_iter_hdr, fig1_iter_table)] if fig1_iter_table is not None else [])
+)
+
+# ---- Figure 2: summary + RQ1 iterations filtered to the top-10 cells ----
+top2_keys = set(zip(fig2["phase"].tolist(), fig2["feature_cell"].tolist()))
+if rq1_iter is not None:
+    mask = ([(p, c) in top2_keys and m == "svm_rbf"
+             for p, c, m in zip(rq1_iter["phase"], rq1_iter["cell"], rq1_iter["model"])])
+    fig2_iter_table = _iter_table(rq1_iter[mask])
+    fig2_iter_hdr = (
+        f"Raw source data — every bootstrap iteration for the 10 (phase × "
+        f"feature) cells shown above ({len(fig2_iter_table):,} rows; "
+        "10 cells × SVM-RBF × 1000 iterations)."
+    )
+else:
+    fig2_iter_table, fig2_iter_hdr = None, ""
+
+write_figure_sheet(wb, 2,
+    [("Summary — top 10 cells, mean bal_acc + 95% CI", fig2)]
+    + ([(fig2_iter_hdr, fig2_iter_table)] if fig2_iter_table is not None else [])
+)
+
+# ---- Figure 3: summary + RQ1 iterations (SVM only, all cells) ----
+if rq1_iter is not None:
+    fig3_iter_table = _iter_table(rq1_iter[rq1_iter["model"] == "svm_rbf"])
+    fig3_iter_hdr = (
+        f"Raw source data — every bootstrap iteration for SVM-RBF, all cells "
+        f"({len(fig3_iter_table):,} rows; 84 cells × 1 model × 1000 iterations)."
+    )
+else:
+    fig3_iter_table, fig3_iter_hdr = None, ""
+
+write_figure_sheet(wb, 3,
+    [("Summary — per-phase overview, SVM-RBF", fig3)]
+    + ([(fig3_iter_hdr, fig3_iter_table)] if fig3_iter_table is not None else [])
+)
+
+# ---- Figure 4: summary + RQ2 iterations filtered to top-10 HFD cells ----
+top4_keys = set(zip(fig4["phase"].tolist(), fig4["feature_cell"].tolist()))
+if rq2_iter is not None:
+    mask = ([(p, c) in top4_keys and s == "HFD"
+             for p, c, s in zip(rq2_iter["phase"], rq2_iter["cell"], rq2_iter["subset"])])
+    fig4_iter_table = _iter_table(rq2_iter[mask])
+    fig4_iter_hdr = (
+        f"Raw source data — every bootstrap iteration for the 10 HFD (phase × "
+        f"feature) cells shown above ({len(fig4_iter_table):,} rows)."
+    )
+else:
+    fig4_iter_table, fig4_iter_hdr = None, ""
+
+write_figure_sheet(wb, 4,
+    [("Summary — top 10 HFD cells, mean R² + 95% CI", fig4)]
+    + ([(fig4_iter_hdr, fig4_iter_table)] if fig4_iter_table is not None else [])
+)
+
+# ---- Figure 5: summary + RQ2 iterations (all HFD + CTRL cells) ----
+if rq2_iter is not None:
+    fig5_iter_table = _iter_table(rq2_iter)
+    fig5_iter_hdr = (
+        f"Raw source data — every bootstrap iteration for all HFD and CTRL "
+        f"(phase × feature) cells ({len(fig5_iter_table):,} rows; "
+        "84 cells × 2 subsets × 1000 iterations, less any skipped)."
+    )
+else:
+    fig5_iter_table, fig5_iter_hdr = None, ""
+
+write_figure_sheet(wb, 5,
+    [("Summary — HFD vs CTRL per phase × feature (mean R² + 95% CI)", fig5)]
+    + ([(fig5_iter_hdr, fig5_iter_table)] if fig5_iter_table is not None else [])
+)
 write_figure_sheet(wb, 6, [
     (f"Sub-table A — per-mouse × per-feature correlations "
      f"(n = {len(fig6_per_mouse)})", fig6_per_mouse),
     (f"Sub-table B — per-feature summary across mice "
      f"(median, sign test)", fig6_summary),
 ])
-# Figure 7: prepend Pearson stat as a section header line
-fig7_header = (f"Pearson r between RQ1 balanced accuracy and RQ2 R² "
+# Figure 7: summary + iterations from BOTH RQ1 and RQ2 (the two axes of the scatter)
+fig7_header = (f"Summary — Pearson r between RQ1 balanced accuracy and RQ2 R² "
                f"across {len(fig7)} phase × feature cells: r = {pearson_r:+.3f}   "
                f"|   Cells with RQ1 > 0.5 AND RQ2 > 0: "
                f"{n_above_both} / {len(fig7)}")
-write_figure_sheet(wb, 7, [(fig7_header, fig7)])
+
+fig7_iter_tables = []
+if rq1_iter is not None:
+    rq1_svm = rq1_iter[rq1_iter["model"] == "svm_rbf"]
+    fig7_iter_tables.append((
+        f"Raw source data (x-axis, RQ1) — every SVM-RBF bootstrap iteration "
+        f"per phase × feature ({len(rq1_svm):,} rows).",
+        _iter_table(rq1_svm),
+    ))
+if rq2_iter is not None:
+    rq2_hfd = rq2_iter[rq2_iter["subset"] == "HFD"]
+    fig7_iter_tables.append((
+        f"Raw source data (y-axis, RQ2) — every HFD R² bootstrap iteration "
+        f"per phase × feature ({len(rq2_hfd):,} rows).",
+        _iter_table(rq2_hfd),
+    ))
+
+write_figure_sheet(wb, 7, [(fig7_header, fig7)] + fig7_iter_tables)
 write_figure_sheet(wb, 8, [
     (f"Sub-table A — per-cell mean balanced accuracy "
      f"(source of the boxplot dots)", fig8_per_cell),
     (f"Sub-table B — per-group summary "
      f"(band vs ratio, slow vs gamma) per phase", fig8_group),
 ])
+
+
+# --- Extra sheet: pooled feature data (input to every model) ---
+def write_pooled_features(wb):
+    if not (os.path.exists(CABLE1_FEAT_CSV) and os.path.exists(CABLE3_FEAT_CSV)):
+        print("Skipping 'Pooled features' sheet: input CSVs not found.")
+        return
+    c1 = pd.read_csv(CABLE1_FEAT_CSV)
+    c3 = pd.read_csv(CABLE3_FEAT_CSV)
+    pooled = pd.concat([c1, c3], ignore_index=True)
+    ws = wb.create_sheet("Pooled features (input)")
+    ws.cell(row=1, column=1,
+            value="Pooled feature table — Cable 1 + Cable 3 "
+                  "(input source data for every model)").font = TITLE_FONT
+    ws.cell(row=3, column=1,
+            value=(f"{len(pooled)} recordings from "
+                   f"{pooled['mouse'].nunique()} unique animals. "
+                   "This is the exact 10a-derived feature matrix that fed all "
+                   "bootstrap models. Every model average shown on the figures "
+                   "was ultimately computed from these values.")).font = CAPTION_FONT
+    ws.merge_cells(start_row=3, start_column=1, end_row=3, end_column=12)
+    ws.cell(row=3, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[3].height = 50
+    write_dataframe_at(ws, pooled, start_row=5, start_col=1)
+
+
+# --- Extra sheet: RQ1 per-iteration bootstrap values ---
+def write_rq1_iterations(wb):
+    if not os.path.exists(RQ1_ITER_CSV):
+        print(f"Skipping 'RQ1 iterations' sheet: {RQ1_ITER_CSV} not found "
+              "(re-run 10b_bootstrap_full.py to generate it).")
+        return
+    df = pd.read_csv(RQ1_ITER_CSV)
+    ws = wb.create_sheet("RQ1 iterations")
+    ws.cell(row=1, column=1,
+            value="RQ1 per-iteration bootstrap values "
+                  "(numbers averaged into Figures 1, 2, 3, 7)").font = TITLE_FONT
+    ws.cell(row=3, column=1,
+            value=(f"{len(df):,} rows — one per (phase × feature × model × "
+                   "bootstrap iteration). The 'balanced_accuracy' column holds "
+                   "the raw values that were averaged into the mean and CI "
+                   "shown on Figures 1, 2, 3, and 7. 84 (phase × feature) "
+                   "cells × 2 models × 1000 iterations.")).font = CAPTION_FONT
+    ws.merge_cells(start_row=3, start_column=1, end_row=3, end_column=12)
+    ws.cell(row=3, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[3].height = 60
+    write_dataframe_at(ws, df, start_row=5, start_col=1)
+
+
+# --- Extra sheet: RQ2 per-iteration bootstrap values ---
+def write_rq2_iterations(wb):
+    if not os.path.exists(RQ2_ITER_CSV):
+        print(f"Skipping 'RQ2 iterations' sheet: {RQ2_ITER_CSV} not found "
+              "(re-run 11c1_bootstrap_weight_full.py to generate it).")
+        return
+    df = pd.read_csv(RQ2_ITER_CSV)
+    ws = wb.create_sheet("RQ2 iterations")
+    ws.cell(row=1, column=1,
+            value="RQ2 per-iteration bootstrap values "
+                  "(numbers averaged into Figures 4, 5, 7)").font = TITLE_FONT
+    ws.cell(row=3, column=1,
+            value=(f"{len(df):,} rows — one per (subset × phase × feature × "
+                   "bootstrap iteration). The 'R2' column holds the raw R² "
+                   "values that were averaged into the mean and CI shown on "
+                   "Figures 4, 5, and 7. Target = absolute body weight; "
+                   "subset ∈ {HFD, CTRL}.")).font = CAPTION_FONT
+    ws.merge_cells(start_row=3, start_column=1, end_row=3, end_column=12)
+    ws.cell(row=3, column=1).alignment = Alignment(wrap_text=True, vertical="top")
+    ws.row_dimensions[3].height = 60
+    write_dataframe_at(ws, df, start_row=5, start_col=1)
+
+
+write_pooled_features(wb)
+# NOTE: per-figure iteration data is now embedded directly in each Figure
+# sheet (as sub-tables below the summary), so we no longer emit standalone
+# 'RQ1 iterations' / 'RQ2 iterations' sheets.
 
 wb.save(OUT_XLSX)
 
