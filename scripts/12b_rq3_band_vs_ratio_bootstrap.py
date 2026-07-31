@@ -262,7 +262,7 @@ for phase in ESTROUS_PHASES:
     lines.append(f"{label:<26} {stats_line(slow_vals):<45} "
                  f"{stats_line(gamma_vals):<45}")
 overall_slow = svm[svm["band_speed"] == "slow"]["boot_mean"].to_numpy()
-overall_gamma = svm[svm["band_speed"] == "gamma"]["boot_mean"].to_numpy()
+overall_gamma = svm[svm["band_speed"] == "gamma"]["boot_mean"].to_numpy() 
 lines.append("")
 lines.append(f"{'OVERALL (all phases)':<26} {stats_line(overall_slow):<45} "
              f"{stats_line(overall_gamma):<45}")
