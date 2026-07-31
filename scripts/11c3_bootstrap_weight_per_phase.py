@@ -4,14 +4,9 @@
 # Purpose:
 #   Per-phase overview panel for RQ2. Four rows (phases A–D),
 #   two columns (HFD | CTRL), showing bootstrap-mean R² for
-#   every feature cell. Same visual language as 10b4:
+#   every feature cell. 
 #   blue = frequency band, green = band-to-band ratio, chance
 #   reference at R² = 0.
-#
-#   The HFD-vs-CTRL side-by-side layout is the negative-control
-#   test: HFD should show non-trivial R² in cells where LFP
-#   tracks weight change; CTRL should sit around zero across
-#   the board (no weight change to predict).
 #
 # Input:
 #   outputs/11c1_bootstrap_weight_full/
