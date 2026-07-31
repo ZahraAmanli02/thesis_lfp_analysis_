@@ -11,7 +11,7 @@
 #   positive correlation) in the scatter of RQ1 vs RQ2 means.
 #
 # Inputs:
-#   RQ1: outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv
+#   RQ1: outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv 
 #        (uses SVM-RBF, the primary classifier)
 #   RQ2: prefer outputs/11c1_bootstrap_weight_change_full/
 #        11c1_bootstrap_weight_change_results_long.csv (delta target)
