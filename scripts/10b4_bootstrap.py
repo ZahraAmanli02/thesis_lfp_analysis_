@@ -6,8 +6,7 @@
 #   Four rows (phases A / B / C / D), one column (SVM-RBF only).
 #   Each panel shows the bootstrap-mean balanced accuracy for
 #   every feature cell (6 bands + 15 band-to-band ratios), coloured
-#   blue for bands and green for ratios — same visual language as
-#   the earlier per-cable figures.
+#   blue for bands and green for ratios
 #
 # Design:
 #   * primary model only (SVM-RBF)
