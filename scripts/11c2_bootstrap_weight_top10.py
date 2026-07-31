@@ -4,12 +4,12 @@
 # Purpose:
 #   Simple vertical bar chart of the top-N (phase × cell)
 #   combinations from the HFD-only body-weight regression
-#   bootstrap. Same clean visual style as 10b3.
+#   bootstrap. 
 #
 # Design:
 #   * HFD subset only (main RQ2 interest)
 #   * bars sorted descending by bootstrap-mean R²
-#   * uniform bar colour — no confirmation highlighting
+#   * uniform bar colour 
 #   * chance reference line at R² = 0
 #   * phase legend with lab's estrous mapping
 #
@@ -137,7 +137,7 @@ for i, val in enumerate(top["boot_mean"]):
             ha="center", va=va,
             fontsize=11, fontweight="bold", color="black")
 
-# x-axis: cell name labels
+# x-axis
 ax.set_xticks(x_pos)
 cell_labels = [format_cell(c) for c in top["cell"]]
 ax.set_xticklabels(cell_labels, rotation=25, ha="right", fontsize=10)
@@ -177,7 +177,7 @@ for i, ph in enumerate(("A", "B", "C", "D")):
             fontsize=10, color="#333",
             clip_on=False)
 
-# y-axis limits — data-driven so we always see the bars
+# y-axis 
 lo_data = min(0.0, float(top["boot_mean"].min()))
 hi_data = max(0.0, float(top["boot_mean"].max()))
 pad = max(0.05, (hi_data - lo_data) * 0.20)
