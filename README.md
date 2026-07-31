@@ -13,7 +13,7 @@ The repository also contains processed data, analysis outputs, and numerical sou
 
 ## Research Overview
 
-Electrophysiological recordings were collected from the lateral hypothalamus using two independent recording cables, referred to as **Cable 1** and **Cable 3**.
+Electrophysiological recordings were collected from the lateral hypothalamus using two independent recording cables, referred to as **Cable 1** and **Cable 3**. The analytic sample comprises **208 clean recordings from 19 female mice (10 high-fat, 9 control)** across the four estrous phases, pooled at the feature level.
 
 The main analysis pipeline included:
 
@@ -39,13 +39,13 @@ The thesis was organized around three main research questions.
 
 Can dietary group be decoded from electrophysiological features extracted from a single recording?
 
-Diet classification was evaluated using feature-specific and estrous-phase-specific machine-learning models. Mouse-level cross-validation was used to prevent recordings from the same animal from appearing in both the training and test datasets.
+Diet classification was evaluated using feature-specific and estrous-phase-specific machine-learning models. Mouse-level resampling was used to prevent recordings from the same animal from appearing in both the training and test datasets.
 
 ### RQ2 — Body-Weight Prediction
 
 Can body weight be predicted from electrophysiological features extracted from a single recording?
 
-Regression models were evaluated using the same feature-specific and phase-specific framework applied to diet classification. Body weight was used as the prediction target and was not included as an input feature.
+Regression models were evaluated using the same feature-specific and phase-specific framework applied to diet classification. Body weight was used as the prediction target and was not included as an input feature. A complementary within-mouse analysis tested whether each animal's own feature trajectory tracks its own weight change.
 
 ### RQ3 — Relationship Between Diet and Body-Weight Information
 
@@ -54,6 +54,16 @@ Are dietary group and body weight represented by the same electrophysiological f
 The significant feature cells identified for diet classification and body-weight prediction were compared across frequency bands, band-power ratios, estrous phases, and recording cables.
 
 This analysis examined whether diet-related information could be explained by body weight alone or whether the two variables were associated with distinct electrophysiological signatures.
+
+## Key Findings
+
+The lateral-hypothalamic LFP carries **two dissociable, phase-conditional signatures** — one for the diet manipulation and one for the resulting weight gain.
+
+- **Diet is decodable under an estrus-conditional delta-family signature (RQ1).** The single feature cell whose 95% confidence interval clears chance is `fast_gamma / delta` (bootstrap-mean balanced accuracy 0.679, 95% CI [0.513, 0.862]), independently corroborated by a significant delta-band mixed-effects effect in Cable 1 (β = −0.135, p_FDR = 0.033).
+- **Body weight is not recoverable across mice, but is recoverable within mice (RQ2).** Cross-mouse regression failed in all 84 phase × feature-cell combinations (bootstrap-mean R² between −1.3 and −13), symmetrically across diet groups — a signature of between-mouse baseline-weight variance dominating the within-mouse signal. A within-mouse Spearman analysis recovers a coherent gamma-anchored cluster: four gamma / beta and gamma / gamma ratios reach sign-test significance, with `fast_gamma / beta` rising with weight in all 9 of 9 mice (median r = +0.365, sign-test p = 0.004).
+- **The diet and weight signatures do not overlap (RQ3).** No phase × feature-cell combination carries both signals simultaneously, so the diet signal in the LFP is not a downstream consequence of the diet's effect on body weight.
+
+A **methodological takeaway** generalizes beyond this dataset: when between-subject variance in the target is comparable to or larger than the within-subject signal, cross-subject regression cannot recover the effect regardless of model class or sample size — reframing the analysis at the within-subject level is the productive move.
 
 ## Cross-Cable Reproducibility
 
@@ -194,19 +204,23 @@ Machine-learning analyses were performed to determine whether electrophysiologic
 The analysis included:
 
 - Random Forest classification and regression;
-- support-vector classification;
+- support-vector classification and regression (SVM-RBF, primary model);
 - Ridge regression as a linear sensitivity analysis;
-- leave-one-mouse-out cross-validation;
+- a mouse-cluster bootstrap with the mouse as the unit of resampling;
 - feature-specific models;
 - estrous-phase-specific models;
 - permutation-based significance testing;
 - bootstrap-based stability analysis.
 
-### Leave-One-Mouse-Out Cross-Validation
+The **SVM-RBF** classifier and regressor were treated as the primary learners, with the **Random Forest** used as a robustness check; conclusions were stated only where both learners agreed in direction.
 
-In each cross-validation iteration, all recordings from one mouse were excluded from model training and used for testing.
+### Mouse-Cluster Bootstrap
 
-This procedure ensured that the model was evaluated on an animal that had not contributed any recording to the training dataset.
+Because each mouse contributes several recordings that share its genetic background, surgical history, and baseline neurophysiology, a cluster-level bootstrap was used in which the **mouse — not the individual recording — is the resampled unit**.
+
+In each of 1000 iterations, mice were drawn with replacement; all recordings from the drawn mice formed the training set, and the recordings of the mice not drawn formed the out-of-bag (OOB) test set. This prevents recordings from the same animal from appearing in both partitions and avoids inflating apparent generalisation performance.
+
+The point estimate reported for every phase × feature-cell combination is the bootstrap mean of the OOB metric (balanced accuracy for RQ1, R² for RQ2), and its uncertainty is the 95% percentile confidence interval across iterations.
 
 ### Diet Classification
 
@@ -216,11 +230,13 @@ Diet classification performance was primarily evaluated using balanced accuracy 
 
 Body-weight prediction was evaluated using regression-performance metrics. Body weight was used only as the target variable and was not included among the predictor features.
 
+In addition to the cross-mouse bootstrap regression, a within-mouse analysis computed the Spearman correlation between each feature and each animal's own weight change, with a sign test applied across mice to identify features that track weight change consistently at the individual-animal level.
+
 ### Permutation Testing
 
 Permutation testing was used to determine whether model performance was higher than expected by chance.
 
-The target labels or values were repeatedly permuted, and the observed model performance was compared with the resulting null distribution.
+The target labels or values were repeatedly permuted at the level of the mouse, and the observed model performance was compared with the resulting null distribution.
 
 ### Bootstrap Analysis
 
@@ -324,7 +340,7 @@ Using project-relative paths is recommended to improve reproducibility across op
 
 - Cable 1 and Cable 3 are generally analysed independently.
 - Recordings from the same mouse are treated as repeated observations.
-- Mouse-level cross-validation is used in predictive analyses.
+- Mouse-level resampling (mouse-cluster bootstrap) is used in predictive analyses.
 - Random seeds should be retained where they are specified.
 - Model significance is evaluated using permutation or bootstrap procedures where applicable.
 - Some scripts require outputs generated by earlier pipeline stages.
