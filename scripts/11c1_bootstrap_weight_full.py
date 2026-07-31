@@ -7,27 +7,15 @@
 #   fit a Random Forest regressor to predict body weight and
 #   record the R² distribution across 1000 cluster-bootstrap
 #   iterations. Separate analyses for HFD-only and CTRL-only
-#   mice, per professor's supervision meeting (2026-07-09 +
-#   2026-07-19 follow-up).
-#
-# Why HFD and CTRL separately?
-#   * CTRL mice — weight stays roughly stable across the diet
-#     phase, so there is little signal to predict. R² near zero
-#     is expected and works as a NEGATIVE CONTROL — it shows
-#     the model does not overfit.
-#   * HFD mice — weight rises systematically, so LFP-derived
-#     features may track weight change. High R² here would
-#     mean "LFP oscillations follow the diet-induced weight
-#     trajectory" — this is the substantive RQ2 finding.
+#   mice.
 #
 # Design:
 #   * pool Cable 1 + Cable 3 features (10a outputs)
 #   * cluster bootstrap: sample mice with replacement, take ALL
 #     their recordings for the phase, evaluate on OOB mice
 #   * mouse_uid = mouse_id (same animals across both cables)
-#   * skip iteration if OOB has < MIN_OOB_ROWS rows
 #   * 1000 iterations per (subset × phase × cell)
-#   * RandomForestRegressor (n_estimators = 100, same as 10c)
+#   * RandomForestRegressor (n_estimators = 100)
 #   * metric = R² on OOB rows (chance = 0)
 #   * eligibility: MIN_RECORDINGS_PER_PHASE = 8,
 #                  MIN_MICE_PER_PHASE = 6, within the SUBSET
@@ -80,7 +68,7 @@ TARGET = "body_weight"
 MIN_OOB_ROWS = 5
 MIN_RECORDINGS_PER_PHASE = 8
 MIN_MICE_PER_PHASE = 6
-RF_TREES = 100                    # matches 10c
+RF_TREES = 100                   
 
 SUBSETS = ("HFD", "CTRL")
 SUBSET_FILTER = {                 # rows.group value that defines each subset
