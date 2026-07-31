@@ -2,38 +2,27 @@
 # 10B_BOOTSTRAP_FULL.PY
 #
 # Purpose:
-#   Full bootstrap re-run of 10b (RQ1) 
-#   supervision meeting (2026-07-09 + 2026-07-19 follow-up).
 #   Pool Cable1 + Cable3 features, resample mice with
 #   replacement, fit SVM-RBF + Random Forest, and report the
 #   mean + 95% CI of balanced accuracy across 1000 bootstrap
 #   iterations for every (estrous phase × feature cell) pair.
 #
-# Design (same as 10b_bootstrap_prototype, scaled up):
+# Design:
 #   * cluster-level bootstrap — sample mice with replacement,
 #     take ALL their recordings for that phase.
 #   * Same physical mice recorded with both cables, so
 #     mouse_uid = mouse_id. Cable1 + Cable3 rows from one
 #     animal always travel together in a bootstrap draw.
-#   * OOB = mice not drawn this iteration; skip iteration if
-#     OOB has < MIN_OOB_ROWS rows or a single class.
 #   * SVM-RBF (C=1, gamma='scale', class_weight='balanced')
 #     and Random Forest (200 trees, class_weight='balanced').
-#     Same hyper-params as 10b except RF trees 500 → 200 to
-#     keep total runtime under ~1h; 200 is plenty for the
-#     row counts we have (~40–70 per cell).
 #   * N_BOOTSTRAP = 1000, ONE global RNG advancing across cells
 #     so bootstrap draws in different cells are independent.
 #   * Metric = balanced accuracy on OOB rows.
 #   * Eligibility: MIN_RECORDINGS_PER_PHASE = 8, MIN_MICE_PER_PHASE = 6
-#     (same as pooled 10b).
+#     
 #
-# Note (PROFESSOR call):
-#   PROFESSOR suggested "200 observations, 1000 iterations". We
-#   went cluster-level (17 mice, not 200 rows) because the
-#   current 10b uses leave-one-mouse-out CV — row-level would
-#   put the same animal in train + OOB and inflate accuracy.
-#   Prototype summary explains this; will confirm with him.
+# Note:
+#   PROFESSOR suggested "200 observations, 1000 iterations". 
 #
 # Inputs:
 #   Cable1: <this project>/outputs/10a_features_Cable1/
