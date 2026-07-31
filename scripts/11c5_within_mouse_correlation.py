@@ -2,11 +2,9 @@
 # 11C5_WITHIN_MOUSE_CORRELATION.PY
 #
 # Purpose:
-#   RQ2 alternative approach C — within-mouse correlation.
+#   RQ2 alternative approach — within-mouse correlation.
 #
-#   Instead of cross-mouse regression (which failed in 11c1
-#   per-cell, 11c1_change delta, and 11c4 joint feature model
-#   because between-mouse baseline variance dominates), this
+#   Instead of cross-mouse regression, this
 #   script asks a per-animal question:
 #
 #     "For this individual HFD mouse, does the value of a
@@ -71,7 +69,7 @@ CABLE3_CSV = (
 )
 
 TARGET = "weight_delta"
-SUBSET_GROUP = "HF"                # HFD only (CTRL has no weight change)
+SUBSET_GROUP = "HF"                # HFD only 
 MIN_REC_PER_MOUSE = 4              # need enough diet-phase recordings per mouse for a stable within-mouse correlation
 ALPHA = 0.05
 
