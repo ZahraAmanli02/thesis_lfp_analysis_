@@ -2,11 +2,9 @@
 # 10B5_BOOTSTRAP_HEATMAP_CLEAN.PY
 #
 # Purpose:
-#   Simplified re-draw of the bootstrap heatmap produced by
+#   Draw of the bootstrap heatmap produced by
 #   10b_bootstrap_full.py. Each cell shows ONLY the bootstrap
-#   mean balanced accuracy (no CI text). This is the version
-#   for PROFESSOR / thesis figures where the CI clutter isn't
-#   needed.
+#   mean balanced accuracy.
 #
 # Design:
 #   * two panels: SVM-RBF (top), Random Forest (bottom)
