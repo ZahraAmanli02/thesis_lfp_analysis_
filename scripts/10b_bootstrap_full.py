@@ -74,7 +74,7 @@ POSITIVE_GROUP = "HF"
 MIN_OOB_ROWS = 5
 MIN_RECORDINGS_PER_PHASE = 8
 MIN_MICE_PER_PHASE = 6
-RF_TREES = 200                     # reduced from 500; still stable for n<80
+RF_TREES = 200                   
 
 BANDS = ["delta", "theta", "beta", "low_gamma", "high_gamma", "fast_gamma"]
 RATIOS = [
