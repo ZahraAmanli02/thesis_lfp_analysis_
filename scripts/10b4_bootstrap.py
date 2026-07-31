@@ -2,7 +2,7 @@
 # 10B4_BOOTSTRAP.PY
 #
 # Purpose:
-#   Per-phase overview panel — pooled Cable 1 + Cable 3 bootstrap.
+#   pooled Cable 1 + Cable 3 bootstrap.
 #   Four rows (phases A / B / C / D), one column (SVM-RBF only).
 #   Each panel shows the bootstrap-mean balanced accuracy for
 #   every feature cell (6 bands + 15 band-to-band ratios), coloured
@@ -14,8 +14,6 @@
 #   * bar height = bootstrap mean of balanced accuracy
 #   * dashed vertical line separates bands from ratios
 #   * chance reference line at 0.5
-#   * no error bars, no CI text, no confirmation highlighting
-#   * phase legend + estrous mapping at the bottom of the figure
 #
 # Input:
 #   outputs/10b_bootstrap_full/10b_bootstrap_results_long.csv
